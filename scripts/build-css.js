@@ -30,16 +30,19 @@ async function buildCSS() {
     console.log('Tailwind config loaded:', Object.keys(tailwindConfig.default || {}));
     console.log('Plugins in config:', tailwindConfig.default?.plugins?.length || 0);
     if (tailwindConfig.default?.plugins) {
-      console.log('Plugin details:', tailwindConfig.default.plugins.map(p => p?.name || typeof p));
+      console.log(
+        'Plugin details:',
+        tailwindConfig.default.plugins.map(p => p?.name || typeof p)
+      );
     }
 
-    const result = await postcss([
-      tailwindcss(tailwindConfig.default),
-      autoprefixer()
-    ]).process(css, {
-      from: inputPath,
-      to: outputPath
-    });
+    const result = await postcss([tailwindcss(tailwindConfig.default), autoprefixer()]).process(
+      css,
+      {
+        from: inputPath,
+        to: outputPath,
+      }
+    );
 
     console.log(`Processed CSS length: ${result.css.length} chars`);
     console.log(`Warnings: ${result.warnings().length}`);

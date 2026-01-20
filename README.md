@@ -96,7 +96,7 @@ export default function MyComponent() {
 ```tsx
 // 在页面组件中
 <div
-  data-island="my-component"  // kebab-case 版本
+  data-island="my-component" // kebab-case 版本
   data-props={JSON.stringify({ initial: 0 })}
 >
   {/* 服务端占位符 */}
@@ -114,13 +114,13 @@ bun run generate:islands
 
 ## 📖 可用命令
 
-| 命令 | 描述 |
-|------|------|
-| `bun run dev` | 启动开发服务器 (热重载) |
-| `bun run generate:islands` | 生成岛组件注册表 |
-| `bun run build:client` | 构建客户端代码 |
-| `bun run build` | 构建整个项目 |
-| `bun run start` | 启动生产服务器 |
+| 命令                       | 描述                    |
+| -------------------------- | ----------------------- |
+| `bun run dev`              | 启动开发服务器 (热重载) |
+| `bun run generate:islands` | 生成岛组件注册表        |
+| `bun run build:client`     | 构建客户端代码          |
+| `bun run build`            | 构建整个项目            |
+| `bun run start`            | 启动生产服务器          |
 
 ## 🏝️ Islands 架构原理
 
@@ -134,6 +134,7 @@ bun run generate:islands
 ### TypeScript 配置
 
 项目使用现代 TypeScript 配置，支持：
+
 - Preact JSX (`jsxImportSource: "preact"`)
 - ESNext 模块
 - 严格类型检查
@@ -161,9 +162,9 @@ bun run generate:islands
 
 - [Bun](https://bun.sh) - 快速的 JavaScript 运行时，引擎
 - [Hono](https://hono.dev) - 轻量级 Web 框架，骨架
-- [Preact](https://preactjs.com) - 快速的 React 替代品, 当然也可以尝试fre,solidJS等  
+- [Preact](https://preactjs.com) - 快速的 React 替代品, 当然也可以尝试fre,solidJS等
 - [Islands Architecture](https://jasonformat.com/islands-architecture/) - 架构灵感
 
 ---
 
-**提示**: 查看  [production.md](production.md) 获取项目完整文档。
+**提示**: 查看 [production.md](production.md) 获取项目完整文档。

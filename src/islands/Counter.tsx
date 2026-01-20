@@ -1,7 +1,7 @@
 // src/islands/Counter.tsx
 // 示例岛组件 - 计数器
 
-import { useState } from "preact/hooks";
+import { useState } from 'preact/hooks';
 
 interface CounterProps {
   initial?: number;
@@ -35,9 +35,7 @@ export default function Counter({ initial = 0 }: CounterProps) {
             +1
           </button>
         </div>
-        <p class="text-sm text-gray-500 mt-4">
-          这是一个交互式岛组件，在客户端hydrate
-        </p>
+        <p class="text-sm text-gray-500 mt-4">这是一个交互式岛组件，在客户端hydrate</p>
       </div>
     </div>
   );

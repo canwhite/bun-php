@@ -1,18 +1,18 @@
 // src/entry-client.ts
 // 客户端 hydration 统一入口
-import { hydrate } from "preact";
-import { islands } from "./islands.generated";
+import { hydrate } from 'preact';
+import { islands } from './islands.generated';
 
 function initHydration() {
-  document.querySelectorAll("[data-island]").forEach((el) => {
-    const islandName = el.getAttribute("data-island");
+  document.querySelectorAll('[data-island]').forEach(el => {
+    const islandName = el.getAttribute('data-island');
     if (!islandName || !(islandName in islands)) {
       console.warn(`未找到 island 组件：${islandName}`);
       return;
     }
 
     try {
-      const propsRaw = el.getAttribute("data-props") || "{}";
+      const propsRaw = el.getAttribute('data-props') || '{}';
       const props = JSON.parse(propsRaw);
       const Component = islands[islandName as keyof typeof islands];
 
@@ -25,8 +25,8 @@ function initHydration() {
 }
 
 // 更安全的时机（避免 FOUC）
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initHydration);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initHydration);
 } else {
   initHydration();
 }

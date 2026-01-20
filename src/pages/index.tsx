@@ -1,15 +1,13 @@
 // src/pages/index.tsx
 // 主页组件
 
-import Layout from "../components/Layout.tsx";
+import Layout from '../components/Layout.tsx';
 
 export default function Home() {
   return (
     <Layout title="首页">
       <div class="max-w-4xl mx-auto px-4">
-        <h1 class="text-4xl font-bold text-gray-900 mb-6">
-          欢迎使用 Islands MPA
-        </h1>
+        <h1 class="text-4xl font-bold text-gray-900 mb-6">欢迎使用 Islands MPA</h1>
 
         <div class="prose prose-lg mb-8">
           <p class="text-gray-700">
@@ -27,9 +25,7 @@ export default function Home() {
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Counter 岛组件 */}
           <div class="bg-gray-50 p-6 rounded-xl">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4">
-              计数器示例
-            </h2>
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">计数器示例</h2>
             <p class="text-gray-600 mb-4">
               下面的计数器是一个岛组件，在服务端渲染占位符，在客户端 hydrate。
             </p>

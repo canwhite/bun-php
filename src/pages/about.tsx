@@ -1,7 +1,7 @@
 // src/pages/about.tsx
 // 关于页面
 
-import Layout from "../components/Layout.tsx";
+import Layout from '../components/Layout.tsx';
 
 export default function About() {
   return (
@@ -12,8 +12,7 @@ export default function About() {
         <div class="space-y-8">
           <div class="bg-white rounded-xl shadow-sm p-6">
             <p class="text-gray-700 text-lg leading-relaxed">
-              这是一个演示 <strong class="text-blue-600">Islands 架构</strong>{" "}
-              的现代
+              这是一个演示 <strong class="text-blue-600">Islands 架构</strong> 的现代
               MPA（多页面应用）项目，结合了服务端渲染的性能优势和客户端交互的灵活性。
             </p>
           </div>
@@ -26,8 +25,7 @@ export default function About() {
               <li class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors">
                 <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
                 <div>
-                  <strong class="text-gray-900">Bun</strong> - 全功能 JavaScript
-                  运行时和包管理器
+                  <strong class="text-gray-900">Bun</strong> - 全功能 JavaScript 运行时和包管理器
                 </div>
               </li>
               <li class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors">
@@ -39,15 +37,13 @@ export default function About() {
               <li class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors">
                 <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
                 <div>
-                  <strong class="text-gray-900">Preact</strong> - 轻量级 React
-                  替代方案
+                  <strong class="text-gray-900">Preact</strong> - 轻量级 React 替代方案
                 </div>
               </li>
               <li class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors">
                 <div class="w-2 h-2 bg-amber-500 rounded-full"></div>
                 <div>
-                  <strong class="text-gray-900">TypeScript</strong> -
-                  类型安全的开发体验
+                  <strong class="text-gray-900">TypeScript</strong> - 类型安全的开发体验
                 </div>
               </li>
             </ul>
@@ -66,12 +62,8 @@ export default function About() {
                 <span class="text-blue-700 text-sm">服务端渲染完整的 HTML</span>
               </li>
               <li class="bg-green-50 p-4 rounded-lg border border-green-100">
-                <strong class="text-green-800 block mb-1">
-                  更少的 JavaScript
-                </strong>
-                <span class="text-green-700 text-sm">
-                  仅 hydrate 交互式组件
-                </span>
+                <strong class="text-green-800 block mb-1">更少的 JavaScript</strong>
+                <span class="text-green-700 text-sm">仅 hydrate 交互式组件</span>
               </li>
               <li class="bg-purple-50 p-4 rounded-lg border border-purple-100">
                 <strong class="text-purple-800 block mb-1">更好的 SEO</strong>
@@ -79,9 +71,7 @@ export default function About() {
               </li>
               <li class="bg-amber-50 p-4 rounded-lg border border-amber-100">
                 <strong class="text-amber-800 block mb-1">渐进增强</strong>
-                <span class="text-amber-700 text-sm">
-                  即使 JavaScript 失败，基础功能仍可用
-                </span>
+                <span class="text-amber-700 text-sm">即使 JavaScript 失败，基础功能仍可用</span>
               </li>
             </ul>
           </div>
@@ -95,16 +85,14 @@ export default function About() {
                 <span class="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-800 rounded-full flex items-center justify-center text-sm font-semibold">
                   1
                 </span>
-                <div class="text-gray-700">
-                  页面在服务端使用 Preact 渲染为完整 HTML
-                </div>
+                <div class="text-gray-700">页面在服务端使用 Preact 渲染为完整 HTML</div>
               </li>
               <li class="flex items-start gap-3">
                 <span class="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-800 rounded-full flex items-center justify-center text-sm font-semibold">
                   2
                 </span>
                 <div class="text-gray-700">
-                  交互式组件被标记为{" "}
+                  交互式组件被标记为{' '}
                   <code class="bg-gray-100 text-gray-800 px-1 py-0.5 rounded text-sm font-mono">
                     data-island
                   </code>
@@ -114,17 +102,13 @@ export default function About() {
                 <span class="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-800 rounded-full flex items-center justify-center text-sm font-semibold">
                   3
                 </span>
-                <div class="text-gray-700">
-                  客户端仅加载和 hydrate 这些岛组件
-                </div>
+                <div class="text-gray-700">客户端仅加载和 hydrate 这些岛组件</div>
               </li>
               <li class="flex items-start gap-3">
                 <span class="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-800 rounded-full flex items-center justify-center text-sm font-semibold">
                   4
                 </span>
-                <div class="text-gray-700">
-                  静态内容保持为纯 HTML，无需 JavaScript 开销
-                </div>
+                <div class="text-gray-700">静态内容保持为纯 HTML，无需 JavaScript 开销</div>
               </li>
             </ol>
           </div>
@@ -135,11 +119,10 @@ export default function About() {
             </h3>
             <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
               <pre class="text-sm font-mono text-gray-800 overflow-x-auto">
-                bun-php/ ├── src/ │ ├── islands/ # 岛组件（交互式组件） │ ├──
-                pages/ # 页面组件 │ ├── components/ # 共享组件 │ ├── server.ts #
-                服务端入口 │ └── entry-client.ts # 客户端 hydration 入口 ├──
-                scripts/ │ └── generate-islands.ts # 自动生成脚本 └── public/ #
-                构建产物
+                bun-php/ ├── src/ │ ├── islands/ # 岛组件（交互式组件） │ ├── pages/ # 页面组件 │
+                ├── components/ # 共享组件 │ ├── server.ts # 服务端入口 │ └── entry-client.ts #
+                客户端 hydration 入口 ├── scripts/ │ └── generate-islands.ts # 自动生成脚本 └──
+                public/ # 构建产物
               </pre>
             </div>
           </div>
@@ -154,18 +137,14 @@ export default function About() {
                   <div class="w-3 h-3 bg-green-500 rounded-full"></div>
                   <strong class="text-green-800">热重载</strong>
                 </div>
-                <p class="text-green-700 text-sm">
-                  修改代码后自动刷新，无需手动重启
-                </p>
+                <p class="text-green-700 text-sm">修改代码后自动刷新，无需手动重启</p>
               </div>
               <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
                 <div class="flex items-center gap-3 mb-2">
                   <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
                   <strong class="text-blue-800">TypeScript 类型检查</strong>
                 </div>
-                <p class="text-blue-700 text-sm">
-                  实时类型检查，避免运行时错误
-                </p>
+                <p class="text-blue-700 text-sm">实时类型检查，避免运行时错误</p>
               </div>
               <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
                 <div class="flex items-center gap-3 mb-2">
@@ -179,9 +158,7 @@ export default function About() {
                   <div class="w-3 h-3 bg-amber-500 rounded-full"></div>
                   <strong class="text-amber-800">零配置构建</strong>
                 </div>
-                <p class="text-amber-700 text-sm">
-                  Bun 内置构建工具，无需复杂配置
-                </p>
+                <p class="text-amber-700 text-sm">Bun 内置构建工具，无需复杂配置</p>
               </div>
             </div>
           </div>

@@ -1,9 +1,11 @@
 # Project Documentation: bun-php
 
 ## 项目定位
+
 基于INIT.md教程创建的Islands架构MPA项目，使用Bun运行时、Hono框架和Preact，实现服务端渲染与客户端部分hydration的现代Web应用。
 
 ## 核心架构
+
 ```
 客户端 (前端)
 ├── Preact岛组件 (Islands)
@@ -25,6 +27,7 @@
 ```
 
 ## 技术栈
+
 - **运行时**: Bun v1.3.1
 - **语言**: TypeScript (ESNext)
 - **前端框架**: Preact v10.28.2 (React兼容)
@@ -37,6 +40,7 @@
 - **JSX引擎**: Preact JSX (配置于tsconfig.json)
 
 ## 目录结构说明
+
 ```
 bun-php/
 ├── src/
@@ -78,12 +82,15 @@ bun-php/
 ## 部署流程
 
 ### 开发环境
+
 1. **安装依赖**
+
    ```bash
    bun install
    ```
 
 2. **启动开发服务器 (带热重载)**
+
    ```bash
    bun run dev
    ```
@@ -95,7 +102,9 @@ bun-php/
    - 启动生产服务器: `bun run start`
 
 ### 生产构建
+
 1. **构建客户端代码**
+
    ```bash
    bun run build
    ```
@@ -106,6 +115,7 @@ bun-php/
    ```
 
 ### 项目初始化步骤
+
 1. 确保Bun已安装 (`curl -fsSL https://bun.sh/install | bash`)
 2. 克隆项目仓库
 3. 运行 `bun install` 安装依赖
@@ -113,6 +123,7 @@ bun-php/
 5. 运行 `bun run start` 启动项目
 
 ## 项目状态
+
 - **创建时间**: 基于INIT.md教程创建于 2026-01-20
 - **当前版本**: Islands架构 + Tailwind CSS版本
 - **代码状态**: 完整的Islands架构MPA，包含计数器示例和Tailwind CSS样式
@@ -126,6 +137,7 @@ bun-php/
   - ✅ `task_tailwind_260120_131254.md` - Tailwind CSS配置和修复
 
 ## Islands架构特性
+
 1. **服务端渲染**: 页面在服务端渲染为完整HTML
 2. **部分hydration**: 仅交互式组件在客户端hydrate
 3. **自动注册**: 脚本自动扫描和注册岛组件
@@ -133,6 +145,7 @@ bun-php/
 5. **开发体验**: 热重载、类型检查、自动生成
 
 ## 下一步开发方向
+
 1. 添加更多岛组件 (表单、图表、交互模块)
 2. 扩展API路由和数据获取
 3. 添加状态管理 (Signals或Context)
@@ -141,6 +154,7 @@ bun-php/
 6. 部署到生产环境 (Docker、云平台)
 
 ## 注意事项
+
 - 岛组件必须放在 `src/islands/` 目录下，使用 `.tsx` 扩展名
 - 组件文件名使用PascalCase，使用时转为kebab-case (如 `Counter` → `data-island="counter"`)
 - `islands.generated.ts` 是自动生成文件，不要手动编辑

@@ -1,14 +1,14 @@
 // src/components/Layout.tsx
 // 共享布局组件
 
-import type { VNode } from "preact";
+import type { VNode } from 'preact';
 
 interface LayoutProps {
   title?: string;
   children: VNode;
 }
 
-export default function Layout({ title = "Islands MPA", children }: LayoutProps) {
+export default function Layout({ title = 'Islands MPA', children }: LayoutProps) {
   return (
     <html lang="zh-CN">
       <head>
@@ -27,7 +27,10 @@ export default function Layout({ title = "Islands MPA", children }: LayoutProps)
           <div class="max-w-6xl mx-auto px-4 py-4">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-8">
-                <a href="/" class="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors">
+                <a
+                  href="/"
+                  class="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors"
+                >
                   Islands MPA
                 </a>
                 <nav class="flex gap-6">
@@ -41,35 +44,28 @@ export default function Layout({ title = "Islands MPA", children }: LayoutProps)
                     href="https://github.com/canwhite/bun-php"
                     target="_blank"
                     class="text-gray-700 hover:text-blue-600 transition-colors"
+                    rel="noreferrer"
                   >
                     GitHub
                   </a>
                 </nav>
               </div>
-              <div class="text-sm text-gray-500">
-                基于 Bun + Hono + Preact
-              </div>
+              <div class="text-sm text-gray-500">基于 Bun + Hono + Preact</div>
             </div>
           </div>
         </header>
 
-        <main class="max-w-6xl mx-auto px-4 py-8">
-          {children}
-        </main>
+        <main class="max-w-6xl mx-auto px-4 py-8">{children}</main>
 
         <footer class="mt-12 border-t border-gray-200 bg-white/50">
           <div class="max-w-6xl mx-auto px-4 py-6">
             <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-              <div class="text-gray-600">
-                © 2026 Islands MPA 示例项目
-              </div>
+              <div class="text-gray-600">© 2026 Islands MPA 示例项目</div>
               <div class="flex gap-4 text-sm">
                 <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full">
-                  Bun {Bun.version || "1.x"}
+                  Bun {Bun.version || '1.x'}
                 </span>
-                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full">
-                  TypeScript
-                </span>
+                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full">TypeScript</span>
                 <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full">
                   Islands 架构
                 </span>

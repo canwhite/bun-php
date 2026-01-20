@@ -4,11 +4,21 @@
   "type": "module",
   "private": true,
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "@tailwindcss/postcss": "^4.1.18",
     "@tailwindcss/typography": "^0.5.19",
     "@types/bun": "latest",
+    "@typescript-eslint/eslint-plugin": "^8.53.1",
+    "@typescript-eslint/parser": "^8.53.1",
     "autoprefixer": "^10.4.23",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
     "postcss": "^8.5.6",
+    "prettier": "^3.8.0",
     "tailwindcss": "^4.1.18"
   },
   "peerDependencies": {
@@ -25,6 +35,11 @@
     "dev": "bun run generate:islands && bun run build:css && bun --hot src/server.tsx",
     "build:client": "bun run generate:islands && bun run build:css && bun build ./src/entry-client.tsx --outdir ./public --minify --target browser",
     "build": "bun run build:client",
-    "start": "bun src/server.tsx"
+    "start": "bun src/server.tsx",
+    "lint": "eslint . --ext .ts,.tsx --max-warnings 0",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "bun run lint && bun run format:check"
   }
 }
