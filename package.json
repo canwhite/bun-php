@@ -1,0 +1,24 @@
+{
+  "name": "bun-php",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "hono": "^4.11.4",
+    "preact": "^10.28.2",
+    "preact-render-to-string": "^6.6.5"
+  },
+  "scripts": {
+    "generate:islands": "bun scripts/generate-islands.ts",
+    "dev": "bun run generate:islands && bun --hot src/server.tsx",
+    "build:client": "bun run generate:islands && bun build ./src/entry-client.tsx --outdir ./public --minify --target browser",
+    "build": "bun run build:client",
+    "start": "bun src/server.tsx"
+  }
+}
