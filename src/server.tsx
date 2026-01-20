@@ -13,15 +13,15 @@ const app = new Hono();
 app.get("/entry-client.js", serveStatic({ path: "./public/entry-client.js" }));
 app.get("/styles.css", serveStatic({ path: "./public/styles.css" }));
 
-app.get("/", c => {
+app.get("/", (c) => {
   return c.html(`<!DOCTYPE html>${render(<Home />)}`);
 });
 
-app.get("/about", c => {
+app.get("/about", (c) => {
   return c.html(`<!DOCTYPE html>${render(<About />)}`);
 });
 
-app.notFound(c => c.text("页面不存在", 404));
+app.notFound((c) => c.text("页面不存在", 404));
 
 export default {
   port: 3003,

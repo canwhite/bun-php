@@ -4,7 +4,7 @@ import { hydrate } from "preact";
 import { islands } from "./islands.generated";
 
 function initHydration() {
-  document.querySelectorAll("[data-island]").forEach(el => {
+  document.querySelectorAll("[data-island]").forEach((el) => {
     const islandName = el.getAttribute("data-island");
     if (!islandName || !(islandName in islands)) {
       console.warn(`未找到 island 组件：${islandName}`);
