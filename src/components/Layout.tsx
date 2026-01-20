@@ -18,11 +18,11 @@ export default function Layout({ title = "Islands MPA", children }: LayoutProps)
         <script src="/entry-client.js" type="module" defer></script>
         <link rel="stylesheet" href="/styles.css" />
         <style>{`
-          * { margin: 0; padding: 0; box-sizing: border-box; }
+          * { margin: 0; box-sizing: border-box; }
           body { font-family: system-ui, -apple-system, sans-serif; }
         `}</style>
       </head>
-      <body class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 text-gray-900">
+      <body class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 text-gray-900 px-4">
         <header class="sticky top-0 z-10 bg-white/80 backdrop-blur-sm border-b border-gray-200">
           <div class="max-w-6xl mx-auto px-4 py-4">
             <div class="flex items-center justify-between">
