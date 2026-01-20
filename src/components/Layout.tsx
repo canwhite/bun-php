@@ -38,7 +38,7 @@ export default function Layout({ title = "Islands MPA", children }: LayoutProps)
                     关于
                   </a>
                   <a
-                    href="https://github.com/your-username/bun-php"
+                    href="https://github.com/canwhite/bun-php"
                     target="_blank"
                     class="text-gray-700 hover:text-blue-600 transition-colors"
                   >
