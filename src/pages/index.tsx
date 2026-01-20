@@ -44,9 +44,7 @@ export default function Home() {
           </div>
 
           <div class="bg-gray-50 p-6 rounded-xl">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4">
-              工作原理
-            </h2>
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">工作原理</h2>
             <div class="space-y-3 text-gray-700">
               <div class="flex items-start gap-2">
                 <div class="mt-1 w-2 h-2 bg-blue-500 rounded-full" />
@@ -54,7 +52,9 @@ export default function Home() {
               </div>
               <div class="flex items-start gap-2">
                 <div class="mt-1 w-2 h-2 bg-blue-500 rounded-full" />
-                <span>标记为 <code>data-island</code> 的组件会被客户端脚本识别</span>
+                <span>
+                  标记为 <code>data-island</code> 的组件会被客户端脚本识别
+                </span>
               </div>
               <div class="flex items-start gap-2">
                 <div class="mt-1 w-2 h-2 bg-blue-500 rounded-full" />
@@ -69,9 +69,7 @@ export default function Home() {
         </div>
 
         <div class="mt-8 p-6 bg-blue-50 rounded-xl">
-          <h3 class="text-xl font-semibold text-blue-800 mb-2">
-            开发命令
-          </h3>
+          <h3 class="text-xl font-semibold text-blue-800 mb-2">开发命令</h3>
           <div class="font-mono text-sm space-y-1">
             <div class="bg-white p-2 rounded">bun run generate:islands</div>
             <div class="bg-white p-2 rounded">bun run dev</div>
