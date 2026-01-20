@@ -30,8 +30,9 @@
 - **前端框架**: Preact v10.28.2 (React兼容)
 - **后端框架**: Hono v4.11.4
 - **SSR渲染**: preact-render-to-string v6.6.5
+- **CSS框架**: Tailwind CSS v4.1.18 (PostCSS处理)
 - **架构模式**: Islands架构 (部分hydration)
-- **构建工具**: Bun内置打包器
+- **构建工具**: Bun内置打包器 + Tailwind CSS构建脚本
 - **包管理器**: Bun
 - **JSX引擎**: Preact JSX (配置于tsconfig.json)
 
@@ -46,15 +47,20 @@ bun-php/
 │   │   └── about.tsx     # 关于页面
 │   ├── components/       # 共享组件
 │   │   └── Layout.tsx    # 布局组件
+│   ├── styles.css        # Tailwind CSS入口文件 (@tailwind指令)
 │   ├── islands.generated.ts  # 自动生成的岛组件注册表
 │   ├── entry-client.tsx  # 客户端hydration入口
 │   └── server.tsx        # 服务端入口 (Hono服务器)
 ├── scripts/
-│   └── generate-islands.ts  # 岛组件自动生成脚本
+│   ├── generate-islands.ts  # 岛组件自动生成脚本
+│   └── build-css.js      # Tailwind CSS构建脚本 (PostCSS处理)
 ├── public/               # 静态文件和构建产物
-│   └── entry-client.js   # 客户端构建产物
+│   ├── entry-client.js   # 客户端构建产物
+│   └── styles.css        # 构建后的Tailwind CSS文件
 ├── package.json          # 项目配置和依赖
 ├── tsconfig.json         # TypeScript配置 (支持Preact JSX)
+├── tailwind.config.js    # Tailwind CSS配置
+├── postcss.config.js     # PostCSS配置 (包含@tailwindcss/postcss插件)
 ├── README.md             # 项目说明
 ├── INIT.md               # 项目初始化教程 (Islands架构实现)
 ├── CLAUDE.md             # Claude Code执行协议
@@ -108,14 +114,16 @@ bun-php/
 
 ## 项目状态
 - **创建时间**: 基于INIT.md教程创建于 2026-01-20
-- **当前版本**: Islands架构实现版本
-- **代码状态**: 完整的Islands架构MPA，包含计数器示例
-- **依赖状态**: 已安装Hono、Preact、preact-render-to-string等依赖
+- **当前版本**: Islands架构 + Tailwind CSS版本
+- **代码状态**: 完整的Islands架构MPA，包含计数器示例和Tailwind CSS样式
+- **依赖状态**: 已安装Hono、Preact、preact-render-to-string、Tailwind CSS v4、PostCSS等依赖
+- **CSS框架**: Tailwind CSS v4.1.18已配置并正常工作
 - **运行状态**: 项目可正常运行，支持开发模式 (bun run dev) 和生产模式 (bun run start)
-- **任务归档**: 三个核心任务已完成并归档至 schema/archive/
+- **任务归档**: 四个核心任务已完成并归档至 schema/archive/
   - ✅ `task_init_260120_083616.md` - 项目探索和production.md创建
   - ✅ `task_islands_260120_085954.md` - Islands架构实现
   - ✅ `task_readme_260120_092348.md` - README.md更新
+  - ✅ `task_tailwind_260120_131254.md` - Tailwind CSS配置和修复
 
 ## Islands架构特性
 1. **服务端渲染**: 页面在服务端渲染为完整HTML
@@ -138,3 +146,10 @@ bun-php/
 - `islands.generated.ts` 是自动生成文件，不要手动编辑
 - 开发时运行 `bun run dev` 会自动生成岛组件注册表
 - TypeScript配置已支持Preact JSX和严格类型检查
+- **Tailwind CSS v4配置**:
+  - 使用 `@tailwindcss/postcss` 插件处理CSS
+  - CSS入口文件: `src/styles.css` (包含 `@tailwind` 指令)
+  - 构建脚本: `bun run build:css` 或通过 `bun run build:client` 自动调用
+  - 构建后的CSS文件: `public/styles.css`
+  - 配置: `tailwind.config.js` (内容配置) 和 `postcss.config.js` (PostCSS插件配置)
+  - 开发时CSS自动构建，生产构建包含CSS处理

@@ -16,6 +16,7 @@ export default function Layout({ title = "Islands MPA", children }: LayoutProps)
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{title} - Islands MPA</title>
         <script src="/entry-client.js" type="module" defer></script>
+        <link rel="stylesheet" href="/styles.css" />
         <style>{`
           * { margin: 0; padding: 0; box-sizing: border-box; }
           body { font-family: system-ui, -apple-system, sans-serif; }
