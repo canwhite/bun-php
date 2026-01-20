@@ -51,7 +51,9 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 }
 ```
 
@@ -209,10 +211,40 @@ console.log(`Warnings: ${result.warnings().length}`);
 - 检查CSS导入语句正确
 - 验证组件中的类名拼写正确
 
+### 4. CSS特异性冲突问题 (如px-4不生效)
+**症状**: Tailwind CSS类（如 `px-4`, `py-2` 等）在组件中已正确使用，但样式不生效。
+
+**原因分析**:
+1. 检查CSS构建正常，类规则已生成（如 `.px-4 { padding-inline: calc(var(--spacing) * 4); }`）
+2. 检查组件中类名使用正确（如 `<body class="... px-4">`）
+3. **根本原因**: 内联样式或CSS重置规则覆盖了Tailwind类
+
+**典型案例**:
+在 `Layout.tsx` 组件中，内联 `<style>` 标签包含：
+```css
+* { margin: 0; padding: 0; box-sizing: border-box; }
+```
+通配选择器 `*` 的 `padding: 0` 规则会覆盖 `.px-4` 类的 `padding-inline` 规则。
+
+**解决方案**:
+1. 移除或修改CSS重置规则中的 `padding: 0`
+2. 修改为只重置需要重置的属性：
+```css
+* { margin: 0; box-sizing: border-box; }
+/* 移除 padding: 0，让Tailwind类正常工作 */
+```
+3. 或者使用更具体的选择器，避免通配选择器覆盖类样式
+
+**验证方法**:
+1. 检查浏览器开发者工具的Elements面板，查看元素应用的CSS规则
+2. 确认Tailwind类规则没有被其他规则覆盖
+3. 检查CSS特异性：内联样式 > ID选择器 > 类选择器 > 元素选择器 > 通配选择器
+
 ## 项目状态更新
 
 ### 技术栈更新
 - **CSS框架**: Tailwind CSS v4.1.18 (PostCSS处理)
+- **Tailwind插件**: @tailwindcss/typography (用于文章内容样式)
 - **构建工具**: Bun内置打包器 + Tailwind CSS构建脚本
 
 ### 文件结构更新
@@ -240,6 +272,7 @@ Tailwind CSS v4 的集成需要特别注意：
 
 ---
 **文档创建时间**: 2026-01-20
-**相关任务**: `task_tailwind_260120_131254.md`
+**文档更新时间**: 2026-01-20 (添加CSS特异性冲突问题解决方案，更新plugins配置)
+**相关任务**: `task_tailwind_260120_131254.md`, `task_tailwind_px4_260120_140849.md`
 **问题状态**: ✅ 已解决
 **验证状态**: ✅ 开发和生产环境均正常工作
