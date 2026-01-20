@@ -24,6 +24,6 @@ app.get('/about', c => {
 app.notFound(c => c.text('页面不存在', 404));
 
 export default {
-  port: 3003,
+  port: 5000,
   fetch: app.fetch,
 };
