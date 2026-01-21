@@ -33,7 +33,7 @@
     "generate:islands": "bun scripts/generate-islands.ts",
     "build:css": "bun scripts/build-css.js",
     "dev": "bun run generate:islands && bun run build:css && bun --hot src/server.tsx",
-    "build:client": "bun run generate:islands && bun run build:css && bun build ./src/entry-client.tsx --outdir ./public --minify --target browser",
+    "build:client": "bun run generate:islands && bun run build:css && bun build ./src/entry-client.tsx --outdir ./dist --minify --target browser",
     "build": "bun run build:client",
     "start": "bun src/server.tsx",
     "lint": "eslint . --ext .ts,.tsx --max-warnings 0",

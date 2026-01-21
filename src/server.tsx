@@ -10,8 +10,8 @@ import About from './pages/about.tsx';
 const app = new Hono();
 
 // 静态文件 - 精确路径映射
-app.get('/entry-client.js', serveStatic({ path: './public/entry-client.js' }));
-app.get('/styles.css', serveStatic({ path: './public/styles.css' }));
+app.get('/entry-client.js', serveStatic({ path: './dist/entry-client.js' }));
+app.get('/styles.css', serveStatic({ path: './dist/styles.css' }));
 
 app.get('/', c => {
   return c.html(`<!DOCTYPE html>${render(<Home />)}`);

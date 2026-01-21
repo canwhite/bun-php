@@ -58,7 +58,7 @@ bun-php/
 ├── scripts/
 │   ├── generate-islands.ts  # 岛组件自动生成脚本
 │   └── build-css.js      # Tailwind CSS构建脚本 (PostCSS处理)
-├── public/               # 静态文件和构建产物
+├── dist/                 # 静态文件和构建产物
 │   ├── entry-client.js   # 客户端构建产物
 │   └── styles.css        # 构建后的Tailwind CSS文件
 ├── package.json          # 项目配置和依赖
@@ -164,6 +164,6 @@ bun-php/
   - 使用 `@tailwindcss/postcss` 插件处理CSS
   - CSS入口文件: `src/styles.css` (包含 `@tailwind` 指令)
   - 构建脚本: `bun run build:css` 或通过 `bun run build:client` 自动调用
-  - 构建后的CSS文件: `public/styles.css`
+  - 构建后的CSS文件: `dist/styles.css`
   - 配置: `tailwind.config.js` (内容配置) 和 `postcss.config.js` (PostCSS插件配置)
   - 开发时CSS自动构建，生产构建包含CSS处理

@@ -15,7 +15,7 @@ async function buildCSS() {
     const { default: postcss } = await import('postcss');
 
     const inputPath = resolve(__dirname, '../src/styles.css');
-    const outputPath = resolve(__dirname, '../public/styles.css');
+    const outputPath = resolve(__dirname, '../dist/styles.css');
     const configPath = resolve(__dirname, '../tailwind.config.js');
 
     console.log(`Input: ${inputPath}`);
@@ -46,6 +46,10 @@ async function buildCSS() {
 
     console.log(`Processed CSS length: ${result.css.length} chars`);
     console.log(`Warnings: ${result.warnings().length}`);
+
+    // 确保dist目录存在
+    const distDir = dirname(outputPath);
+    await fs.mkdir(distDir, { recursive: true });
 
     await fs.writeFile(outputPath, result.css);
 
