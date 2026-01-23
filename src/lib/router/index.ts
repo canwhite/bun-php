@@ -3,6 +3,7 @@
 
 import { Hono } from 'hono';
 import { render } from 'preact-render-to-string';
+import { createElement } from 'preact';
 import { join } from 'path';
 import type { RouteConfig } from './types';
 
@@ -91,11 +92,11 @@ async function renderPage(route: RouteConfig): Promise<string> {
     );
 
     // 嵌套渲染：布局包裹页面
-    let content = pageComponent({});
+    let content = createElement(pageComponent, {});
 
     // 从最内层到最外层应用布局
     for (const Layout of layoutComponents.reverse()) {
-      content = Layout({ children: content });
+      content = createElement(Layout, { children: content });
     }
 
     // 服务端渲染

@@ -6,7 +6,7 @@ import { readdir, stat, readFile, writeFile } from 'fs/promises';
 import { join, relative, dirname, basename, extname, sep } from 'path';
 import { existsSync } from 'fs';
 import { minimatch } from 'minimatch';
-import config from '../src/router.config.ts';
+import config from '../src/router.config';
 import type {
   RouterConfig,
   RouteConfig,
@@ -409,11 +409,14 @@ async function parsePageRoute(filePath: string, config: RouterConfig): Promise<R
  * 简化路由配置（用于 routeTree，不需要函数）
  */
 function simplifyRoute(route: RouteConfig): SimplifiedRouteConfig {
+  // 计算导入路径，与 parsePageRoute 中的逻辑一致
+  const importPath = './' + relative('src', route.filePath).replace(/\\/g, '/');
+
   return {
     path: route.path,
     filePath: route.filePath,
     relativePath: route.relativePath,
-    pageComponent: route.pageComponent, // 字符串路径，不是函数
+    pageComponent: importPath, // 字符串路径，不是函数
     layoutComponents: route.layoutComponents,
     hasLoading: route.hasLoading,
     hasError: route.hasError,
@@ -443,7 +446,7 @@ function buildRouteTree(routes: RouteConfig[]): Record<string, any> {
     let currentNode = routeTree;
 
     for (let i = 0; i < segments.length; i++) {
-      const segment = segments[i];
+      const segment = segments[i]!;
       if (!currentNode[segment]) {
         currentNode[segment] = {};
       }
@@ -472,13 +475,8 @@ function generateRoutesContent(routes: RouteConfig[], config: RouterConfig): str
   const routesByFilePath: Record<string, RouteConfig> = {};
 
   for (const route of routes) {
-    // 创建转换后的路由对象，pageComponent 转换为函数
-    const transformedRoute = {
-      ...route,
-      pageComponent: () => import(route.pageComponent),
-    };
-    routesByPath[route.path] = transformedRoute;
-    routesByFilePath[route.filePath] = transformedRoute;
+    routesByPath[route.path] = route;
+    routesByFilePath[route.filePath] = route;
   }
 
   // 生成导入语句（布局组件）

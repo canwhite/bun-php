@@ -2,6 +2,10 @@
 // File routing system type definitions
 
 import type { Hono, Context } from 'hono';
+import type { FunctionComponent } from 'preact';
+
+// Response is available globally in Bun runtime
+type Response = globalThis.Response;
 
 // Configuration Types
 
@@ -32,7 +36,7 @@ export interface RouteConfig {
   relativePath: string;
 
   // Component Information
-  pageComponent: () => Promise<{ default: any }>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  pageComponent: () => Promise<{ default: FunctionComponent<any> }>; // eslint-disable-line @typescript-eslint/no-explicit-any
   layoutComponents: string[];
   hasLoading: boolean;
   hasError: boolean;
@@ -62,7 +66,7 @@ export interface SimplifiedRouteConfig {
   relativePath: string;
 
   // Component Information (strings instead of functions)
-  pageComponent: () => Promise<{ default: any }>; // eslint-disable-line @typescript-eslint/no-explicit-any // String path instead of function
+  pageComponent: string; // String path instead of function
   layoutComponents: string[];
   hasLoading: boolean;
   hasError: boolean;

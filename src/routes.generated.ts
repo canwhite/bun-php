@@ -1,7 +1,7 @@
 // ==============================================
 // AUTO-GENERATED - DO NOT EDIT MANUALLY!
 // 文件路由配置
-// Generated at: 2026-01-23T14:02:22.251Z
+// Generated at: 2026-01-23T14:25:26.260Z
 // ==============================================
 
 
@@ -56,6 +56,7 @@ export const routeTree = {
       "path": "/about",
       "filePath": "src/app/about/page.tsx",
       "relativePath": "about/page.tsx",
+      "pageComponent": "./app/about/page.tsx",
       "layoutComponents": [],
       "hasLoading": false,
       "hasError": false,
@@ -152,7 +153,7 @@ export const routesByFilePath: Record<string, RouteConfig> = {
 
 export const config = {
   rootDir: "src/app/",
-  generatedAt: "2026-01-23T14:02:22.251Z",
+  generatedAt: "2026-01-23T14:25:26.260Z",
   version: "1.0.0",
 };
 
