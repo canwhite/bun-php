@@ -95,7 +95,7 @@ const config: RouterConfig = {
    * - [...slug] → 通配参数
    * - [[...optional]] → 可选通配参数
    */
-  dynamicParamPattern: /^\[(\[?\w+\.\.\.?\]?)\]$/,
+  dynamicParamPattern: /^\[(\[?\w+(?:\.\.\.)?\]?)\]$/,
 
   /**
    * 默认布局组件路径

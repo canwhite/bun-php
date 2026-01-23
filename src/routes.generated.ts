@@ -1,7 +1,7 @@
 // ==============================================
 // AUTO-GENERATED - DO NOT EDIT MANUALLY!
 // 文件路由配置
-// Generated at: 2026-01-23T14:43:15.519Z
+// Generated at: 2026-01-23T15:11:47.681Z
 // ==============================================
 
 
@@ -26,6 +26,25 @@ export const routes: RouteConfig[] = [
     params: [],
     metadata: {},
     routeDir: "about",
+    excluded: undefined,
+    exclusionReason: undefined,
+  },
+  {
+    path: "/users/:id",
+    filePath: "src/app/users/[id]/page.tsx",
+    relativePath: "users/[id]/page.tsx",
+    pageComponent: () => import("./app/users/[id]/page.tsx"),
+    layoutComponents: [],
+    hasLoading: false,
+    hasError: false,
+    loadingComponent: undefined,
+    errorComponent: undefined,
+    isDynamic: true,
+    isCatchAll: false,
+    isOptionalCatchAll: false,
+    params: ["id"],
+    metadata: {},
+    routeDir: "users/[id]",
     excluded: undefined,
     exclusionReason: undefined,
   },
@@ -66,6 +85,26 @@ export const routeTree = {
       "params": [],
       "routeDir": "about"
     }
+  },
+  "users": {
+    ":id": {
+      "page": {
+        "path": "/users/:id",
+        "filePath": "src/app/users/[id]/page.tsx",
+        "relativePath": "users/[id]/page.tsx",
+        "pageComponent": "./app/users/[id]/page.tsx",
+        "layoutComponents": [],
+        "hasLoading": false,
+        "hasError": false,
+        "isDynamic": true,
+        "isCatchAll": false,
+        "isOptionalCatchAll": false,
+        "params": [
+          "id"
+        ],
+        "routeDir": "users/[id]"
+      }
+    }
   }
 };
 
@@ -86,6 +125,25 @@ export const routesByPath: Record<string, RouteConfig> = {
     params: [],
     metadata: {},
     routeDir: "about",
+    excluded: undefined,
+    exclusionReason: undefined
+  },
+"/users/:id": {
+    path: "/users/:id",
+    filePath: "src/app/users/[id]/page.tsx",
+    relativePath: "users/[id]/page.tsx",
+    pageComponent: () => import("./app/users/[id]/page.tsx"),
+    layoutComponents: [],
+    hasLoading: false,
+    hasError: false,
+    loadingComponent: undefined,
+    errorComponent: undefined,
+    isDynamic: true,
+    isCatchAll: false,
+    isOptionalCatchAll: false,
+    params: ["id"],
+    metadata: {},
+    routeDir: "users/[id]",
     excluded: undefined,
     exclusionReason: undefined
   },
@@ -130,6 +188,25 @@ export const routesByFilePath: Record<string, RouteConfig> = {
     excluded: undefined,
     exclusionReason: undefined
   },
+"src/app/users/[id]/page.tsx": {
+    path: "/users/:id",
+    filePath: "src/app/users/[id]/page.tsx",
+    relativePath: "users/[id]/page.tsx",
+    pageComponent: () => import("./app/users/[id]/page.tsx"),
+    layoutComponents: [],
+    hasLoading: false,
+    hasError: false,
+    loadingComponent: undefined,
+    errorComponent: undefined,
+    isDynamic: true,
+    isCatchAll: false,
+    isOptionalCatchAll: false,
+    params: ["id"],
+    metadata: {},
+    routeDir: "users/[id]",
+    excluded: undefined,
+    exclusionReason: undefined
+  },
 "src/app/page.tsx": {
     path: "/",
     filePath: "src/app/page.tsx",
@@ -153,7 +230,7 @@ export const routesByFilePath: Record<string, RouteConfig> = {
 
 export const config = {
   rootDir: "src/app/",
-  generatedAt: "2026-01-23T14:43:15.519Z",
+  generatedAt: "2026-01-23T15:11:47.681Z",
   version: "1.0.0",
 };
 

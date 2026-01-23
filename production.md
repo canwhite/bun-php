@@ -130,11 +130,13 @@ bun-php/
 - **依赖状态**: 已安装Hono、Preact、preact-render-to-string、Tailwind CSS v4、PostCSS等依赖
 - **CSS框架**: Tailwind CSS v4.1.18已配置并正常工作
 - **运行状态**: 项目可正常运行，支持开发模式 (bun run dev) 和生产模式 (bun run start)
-- **任务归档**: 四个核心任务已完成并归档至 schema/archive/
+- **任务归档**: 五个核心任务已完成并归档至 schema/archive/
   - ✅ `task_init_260120_083616.md` - 项目探索和production.md创建
   - ✅ `task_islands_260120_085954.md` - Islands架构实现
   - ✅ `task_readme_260120_092348.md` - README.md更新
   - ✅ `task_tailwind_260120_131254.md` - Tailwind CSS配置和修复
+  - ✅ `task_param_260123_225729.md` - 动态路由页面实现和测试
+- **动态路由**: 已实现支持路径参数的动态路由功能，示例 `/users/:id`
 
 ## Islands架构特性
 
@@ -143,6 +145,15 @@ bun-php/
 3. **自动注册**: 脚本自动扫描和注册岛组件
 4. **类型安全**: TypeScript全程类型支持
 5. **开发体验**: 热重载、类型检查、自动生成
+
+## 动态路由特性
+
+1. **文件系统路由**: 基于目录结构的动态路由，使用 `[param]` 目录命名约定
+2. **自动参数解析**: 自动将 `[id]` 转换为 `:id` 路由参数
+3. **参数传递**: 路由参数自动传递给页面组件作为 `params` props
+4. **类型安全**: TypeScript 类型支持路由参数
+5. **示例路由**: `/users/[id]/page.tsx` → 对应 `/users/:id` 路径
+6. **参数访问**: 页面组件通过 `({ params })` 接收参数，如 `params.id`
 
 ## 下一步开发方向
 

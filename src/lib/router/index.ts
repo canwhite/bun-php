@@ -76,7 +76,10 @@ async function importComponent(importPath: string): Promise<any> {
 /**
  * 渲染页面组件（包含布局嵌套）
  */
-async function renderPage(route: RouteConfig): Promise<string> {
+async function renderPage(
+  route: RouteConfig,
+  params: Record<string, string> = {}
+): Promise<string> {
   try {
     // 动态导入页面组件
     // route.pageComponent 是一个函数：() => import("app/page.tsx")
@@ -91,8 +94,8 @@ async function renderPage(route: RouteConfig): Promise<string> {
       })
     );
 
-    // 嵌套渲染：布局包裹页面
-    let content = createElement(pageComponent, {});
+    // 嵌套渲染：布局包裹页面，传递参数给页面组件
+    let content = createElement(pageComponent, { params });
 
     // 从最内层到最外层应用布局
     for (const Layout of layoutComponents.reverse()) {
@@ -120,26 +123,27 @@ export async function registerFileRoutes(app: Hono): Promise<void> {
 
     // 注册每个路由
     for (const route of routes) {
-      const { path, isDynamic, isCatchAll, params: _params } = route; // eslint-disable-line @typescript-eslint/no-unused-vars
+      const { path, isDynamic, isCatchAll, params: routeParams } = route;
 
       // 根据路由类型注册不同的处理器
       if (isCatchAll) {
         // 通配路由
         app.get(`${path}/*`, async c => {
-          const html = await renderPage(route);
+          const html = await renderPage(route, {});
           return c.html(html);
         });
       } else if (isDynamic) {
         // 动态路由
         app.get(path, async c => {
-          // 这里可以处理动态参数，如果需要传递给组件
-          const html = await renderPage(route);
+          // 从请求中获取动态参数
+          const params = c.req.param();
+          const html = await renderPage(route, params);
           return c.html(html);
         });
       } else {
         // 静态路由
         app.get(path, async c => {
-          const html = await renderPage(route);
+          const html = await renderPage(route, {});
           return c.html(html);
         });
       }
