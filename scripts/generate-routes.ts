@@ -10,6 +10,7 @@ import config from '../src/router.config.ts';
 import type {
   RouterConfig,
   RouteConfig,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   GeneratedRoutes,
   SimplifiedRouteConfig,
 } from '../src/lib/router/types';
@@ -126,27 +127,6 @@ function isPageFile(fileName: string, config: RouterConfig): boolean {
 }
 
 /**
- * 判断是否为布局文件
- */
-function isLayoutFile(fileName: string, config: RouterConfig): boolean {
-  return config.layoutFileNames.includes(fileName);
-}
-
-/**
- * 判断是否为加载状态文件
- */
-function isLoadingFile(fileName: string, config: RouterConfig): boolean {
-  return config.loadingFileNames.includes(fileName);
-}
-
-/**
- * 判断是否为错误边界文件
- */
-function isErrorFile(fileName: string, config: RouterConfig): boolean {
-  return config.errorFileNames.includes(fileName);
-}
-
-/**
  * 解析动态参数
  * 将文件名中的 [param] 转换为 :param
  */
@@ -167,7 +147,7 @@ function parseDynamicSegment(segment: string): {
     };
   }
 
-  const param = match[1];
+  const param = match[1]!;
   const isCatchAll = param.startsWith('...');
   const isOptionalCatchAll = param.startsWith('[...') && param.endsWith(']');
 
@@ -379,7 +359,7 @@ async function parsePageRoute(filePath: string, config: RouterConfig): Promise<R
   }
 
   // 尝试提取元数据
-  let metadata: Record<string, any> | undefined;
+  let metadata: Record<string, any> | undefined; // eslint-disable-line @typescript-eslint/no-explicit-any
   try {
     const content = await readFile(filePath, 'utf-8');
     // 简单提取 export const metadata = { ... } 或 export const metadata: Metadata = { ... }
@@ -390,7 +370,7 @@ async function parsePageRoute(filePath: string, config: RouterConfig): Promise<R
       try {
         // 注意：这里只是简单提取，实际应该使用TypeScript解析器
         // 这里使用 eval 仅用于演示，生产环境应该使用更安全的方法
-        const metadataStr = metadataMatch[1]
+        const metadataStr = metadataMatch[1]!
           .replace(/(\w+)\s*:/g, '"$1":') // 将键转换为字符串
           .replace(/'([^']*)'/g, '"$1"') // 将单引号替换为双引号
           .replace(/,(\s*[}\]])/g, '$1'); // 移除尾随逗号
@@ -410,7 +390,7 @@ async function parsePageRoute(filePath: string, config: RouterConfig): Promise<R
     path: urlPath,
     filePath,
     relativePath,
-    pageComponent: './' + relative('src', filePath).replace(/\\/g, '/'),
+    pageComponent: () => import('./' + relative('src', filePath).replace(/\\/g, '/')),
     layoutComponents,
     hasLoading,
     hasError,
@@ -453,7 +433,9 @@ function simplifyRoute(route: RouteConfig): SimplifiedRouteConfig {
 /**
  * 构建路由树
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function buildRouteTree(routes: RouteConfig[]): Record<string, any> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const routeTree: Record<string, any> = {};
 
   for (const route of routes) {
@@ -517,11 +499,13 @@ function generateRoutesContent(routes: RouteConfig[], config: RouterConfig): str
   // 生成路由配置
   const routesConfig = routes
     .map(route => {
+      // 计算导入路径，与 parsePageRoute 中的逻辑一致
+      const importPath = './' + relative('src', route.filePath).replace(/\\/g, '/');
       return `  {
     path: ${JSON.stringify(route.path)},
     filePath: ${JSON.stringify(route.filePath)},
     relativePath: ${JSON.stringify(route.relativePath)},
-    pageComponent: () => import(${JSON.stringify(route.pageComponent)}),
+    pageComponent: () => import(${JSON.stringify(importPath)}),
     layoutComponents: ${JSON.stringify(route.layoutComponents)},
     hasLoading: ${route.hasLoading},
     hasError: ${route.hasError},
@@ -554,11 +538,13 @@ function generateRoutesContent(routes: RouteConfig[], config: RouterConfig): str
 
   // 生成单个路由对象的字符串表示（包含 pageComponent 函数）
   function routeToString(route: RouteConfig): string {
+    // 计算导入路径，与 parsePageRoute 中的逻辑一致
+    const importPath = './' + relative('src', route.filePath).replace(/\\/g, '/');
     return `{
     path: ${JSON.stringify(route.path)},
     filePath: ${JSON.stringify(route.filePath)},
     relativePath: ${JSON.stringify(route.relativePath)},
-    pageComponent: () => import(${JSON.stringify(route.pageComponent)}),
+    pageComponent: () => import(${JSON.stringify(importPath)}),
     layoutComponents: ${JSON.stringify(route.layoutComponents)},
     hasLoading: ${route.hasLoading},
     hasError: ${route.hasError},

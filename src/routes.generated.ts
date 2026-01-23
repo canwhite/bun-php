@@ -1,18 +1,20 @@
 // ==============================================
 // AUTO-GENERATED - DO NOT EDIT MANUALLY!
 // 文件路由配置
-// Generated at: 2026-01-23T12:29:44.025Z
+// Generated at: 2026-01-23T14:02:22.251Z
 // ==============================================
+
+
 
 import type { RouteConfig } from './lib/router/types';
 import type { GeneratedRoutes } from './lib/router/types';
 
 export const routes: RouteConfig[] = [
   {
-    path: '/about',
-    filePath: 'src/app/about/page.tsx',
-    relativePath: 'about/page.tsx',
-    pageComponent: () => import('./app/about/page.tsx'),
+    path: "/about",
+    filePath: "src/app/about/page.tsx",
+    relativePath: "about/page.tsx",
+    pageComponent: () => import("./app/about/page.tsx"),
     layoutComponents: [],
     hasLoading: false,
     hasError: false,
@@ -23,15 +25,15 @@ export const routes: RouteConfig[] = [
     isOptionalCatchAll: false,
     params: [],
     metadata: {},
-    routeDir: 'about',
+    routeDir: "about",
     excluded: undefined,
     exclusionReason: undefined,
   },
   {
-    path: '/',
-    filePath: 'src/app/page.tsx',
-    relativePath: 'page.tsx',
-    pageComponent: () => import('./app/page.tsx'),
+    path: "/",
+    filePath: "src/app/page.tsx",
+    relativePath: "page.tsx",
+    pageComponent: () => import("./app/page.tsx"),
     layoutComponents: [],
     hasLoading: false,
     hasError: false,
@@ -42,37 +44,36 @@ export const routes: RouteConfig[] = [
     isOptionalCatchAll: false,
     params: [],
     metadata: {},
-    routeDir: '.',
+    routeDir: ".",
     excluded: undefined,
     exclusionReason: undefined,
-  },
+  }
 ];
 
 export const routeTree = {
-  about: {
-    page: {
-      path: '/about',
-      filePath: 'src/app/about/page.tsx',
-      relativePath: 'about/page.tsx',
-      pageComponent: './app/about/page.tsx',
-      layoutComponents: [],
-      hasLoading: false,
-      hasError: false,
-      isDynamic: false,
-      isCatchAll: false,
-      isOptionalCatchAll: false,
-      params: [],
-      routeDir: 'about',
-    },
-  },
+  "about": {
+    "page": {
+      "path": "/about",
+      "filePath": "src/app/about/page.tsx",
+      "relativePath": "about/page.tsx",
+      "layoutComponents": [],
+      "hasLoading": false,
+      "hasError": false,
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isOptionalCatchAll": false,
+      "params": [],
+      "routeDir": "about"
+    }
+  }
 };
 
 export const routesByPath: Record<string, RouteConfig> = {
-  '/about': {
-    path: '/about',
-    filePath: 'src/app/about/page.tsx',
-    relativePath: 'about/page.tsx',
-    pageComponent: () => import('./app/about/page.tsx'),
+"/about": {
+    path: "/about",
+    filePath: "src/app/about/page.tsx",
+    relativePath: "about/page.tsx",
+    pageComponent: () => import("./app/about/page.tsx"),
     layoutComponents: [],
     hasLoading: false,
     hasError: false,
@@ -83,15 +84,15 @@ export const routesByPath: Record<string, RouteConfig> = {
     isOptionalCatchAll: false,
     params: [],
     metadata: {},
-    routeDir: 'about',
+    routeDir: "about",
     excluded: undefined,
-    exclusionReason: undefined,
+    exclusionReason: undefined
   },
-  '/': {
-    path: '/',
-    filePath: 'src/app/page.tsx',
-    relativePath: 'page.tsx',
-    pageComponent: () => import('./app/page.tsx'),
+"/": {
+    path: "/",
+    filePath: "src/app/page.tsx",
+    relativePath: "page.tsx",
+    pageComponent: () => import("./app/page.tsx"),
     layoutComponents: [],
     hasLoading: false,
     hasError: false,
@@ -102,18 +103,18 @@ export const routesByPath: Record<string, RouteConfig> = {
     isOptionalCatchAll: false,
     params: [],
     metadata: {},
-    routeDir: '.',
+    routeDir: ".",
     excluded: undefined,
-    exclusionReason: undefined,
-  },
+    exclusionReason: undefined
+  }
 };
 
 export const routesByFilePath: Record<string, RouteConfig> = {
-  'src/app/about/page.tsx': {
-    path: '/about',
-    filePath: 'src/app/about/page.tsx',
-    relativePath: 'about/page.tsx',
-    pageComponent: () => import('./app/about/page.tsx'),
+"src/app/about/page.tsx": {
+    path: "/about",
+    filePath: "src/app/about/page.tsx",
+    relativePath: "about/page.tsx",
+    pageComponent: () => import("./app/about/page.tsx"),
     layoutComponents: [],
     hasLoading: false,
     hasError: false,
@@ -124,15 +125,15 @@ export const routesByFilePath: Record<string, RouteConfig> = {
     isOptionalCatchAll: false,
     params: [],
     metadata: {},
-    routeDir: 'about',
+    routeDir: "about",
     excluded: undefined,
-    exclusionReason: undefined,
+    exclusionReason: undefined
   },
-  'src/app/page.tsx': {
-    path: '/',
-    filePath: 'src/app/page.tsx',
-    relativePath: 'page.tsx',
-    pageComponent: () => import('./app/page.tsx'),
+"src/app/page.tsx": {
+    path: "/",
+    filePath: "src/app/page.tsx",
+    relativePath: "page.tsx",
+    pageComponent: () => import("./app/page.tsx"),
     layoutComponents: [],
     hasLoading: false,
     hasError: false,
@@ -143,16 +144,16 @@ export const routesByFilePath: Record<string, RouteConfig> = {
     isOptionalCatchAll: false,
     params: [],
     metadata: {},
-    routeDir: '.',
+    routeDir: ".",
     excluded: undefined,
-    exclusionReason: undefined,
-  },
+    exclusionReason: undefined
+  }
 };
 
 export const config = {
-  rootDir: 'src/app/',
-  generatedAt: '2026-01-23T12:29:44.025Z',
-  version: '1.0.0',
+  rootDir: "src/app/",
+  generatedAt: "2026-01-23T14:02:22.251Z",
+  version: "1.0.0",
 };
 
 // 类型导出

@@ -1,7 +1,7 @@
 // src/lib/router/types.ts
 // File routing system type definitions
 
-import type { Hono } from 'hono';
+import type { Hono, Context } from 'hono';
 
 // Configuration Types
 
@@ -32,7 +32,7 @@ export interface RouteConfig {
   relativePath: string;
 
   // Component Information
-  pageComponent: () => Promise<{ default: any }>;
+  pageComponent: () => Promise<{ default: any }>; // eslint-disable-line @typescript-eslint/no-explicit-any
   layoutComponents: string[];
   hasLoading: boolean;
   hasError: boolean;
@@ -46,7 +46,7 @@ export interface RouteConfig {
   params: string[];
 
   // Metadata
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   routeDir: string;
 
   // Exclusion Status
@@ -62,7 +62,7 @@ export interface SimplifiedRouteConfig {
   relativePath: string;
 
   // Component Information (strings instead of functions)
-  pageComponent: string; // String path instead of function
+  pageComponent: () => Promise<{ default: any }>; // eslint-disable-line @typescript-eslint/no-explicit-any // String path instead of function
   layoutComponents: string[];
   hasLoading: boolean;
   hasError: boolean;
@@ -76,7 +76,7 @@ export interface SimplifiedRouteConfig {
   params: string[];
 
   // Metadata
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   routeDir: string;
 
   // Exclusion Status
@@ -115,6 +115,68 @@ export interface RouterOptions {
   dev?: boolean;
 }
 
+// API Routing Types
+
+export type ApiHandler = (c: Context) => Response | Promise<Response>;
+
+export interface ApiRouteConfig {
+  // Route Information
+  path: string;
+  filePath: string;
+  relativePath: string;
+
+  // HTTP Methods
+  supportedMethods: string[]; // 例如: ['GET', 'POST']
+  importPath: string; // 相对于src目录的导入路径，如 "./app/api/users/route.ts"
+
+  // Route Features
+  isDynamic: boolean;
+  isCatchAll: boolean;
+  isOptionalCatchAll: boolean;
+  params: string[];
+
+  // Metadata
+  routeDir: string;
+}
+
+export interface ApiRouterConfig {
+  rootDir: string;
+  routeDirs?: string[];
+  excludeDirs: string[];
+  apiFileNames: string[];
+  dynamicParamPattern: RegExp;
+  watchMode: boolean;
+  generateTypes: boolean;
+  logLevel?: 'debug' | 'info' | 'warn' | 'error' | 'silent';
+  maxDepth?: number;
+  ignoreFiles?: string[];
+}
+
+export interface GeneratedApiRoutes {
+  config: {
+    rootDir: string;
+    generatedAt: string;
+    version: string;
+  };
+  routes: ApiRouteConfig[];
+  routesByPath: Record<string, ApiRouteConfig>;
+  routesByFilePath: Record<string, ApiRouteConfig>;
+}
+
+export interface ApiRouterOptions {
+  app: Hono;
+  config?: Partial<ApiRouterConfig>;
+  dev?: boolean;
+}
+
+export interface ApiFileRouter {
+  init(): Promise<void>;
+  scanRoutes(): Promise<GeneratedApiRoutes>;
+  registerRoutes(): Promise<void>;
+  getRoutes(): GeneratedApiRoutes | null;
+  reloadConfig(): Promise<void>;
+}
+
 export interface FileRouter {
   init(): Promise<void>;
   scanRoutes(): Promise<GeneratedRoutes>;
@@ -148,7 +210,36 @@ export const defaultConfig: RouterConfig = {
   layoutFileNames: ['layout.tsx', 'layout.jsx', 'layout.ts', 'layout.js'],
   loadingFileNames: ['loading.tsx', 'loading.jsx', 'loading.ts', 'loading.js'],
   errorFileNames: ['error.tsx', 'error.jsx', 'error.ts', 'error.js'],
-  dynamicParamPattern: /^\[(\[?\w+\.\.\.?\]?)\]$/,
+  dynamicParamPattern: /^\[(\[?\w+(?:\.\.\.)?\]?)\]$/,
+  watchMode: process.env.NODE_ENV === 'development',
+  generateTypes: true,
+  logLevel: process.env.NODE_ENV === 'development' ? 'info' : 'warn',
+  maxDepth: 10,
+  ignoreFiles: ['**/*.d.ts', '**/*.test.*', '**/*.spec.*', '**/.*', '**/node_modules/**'],
+};
+
+// Default API Configuration
+export const defaultApiConfig: ApiRouterConfig = {
+  rootDir: 'src/app/api',
+  excludeDirs: [
+    'islands',
+    'components',
+    'lib',
+    'utils',
+    'types',
+    'styles',
+    'hooks',
+    'contexts',
+    'stores',
+    'public',
+    'assets',
+    'images',
+    'dist',
+    'build',
+    'node_modules',
+  ],
+  apiFileNames: ['route.ts', 'route.js', 'route.tsx', 'route.jsx'],
+  dynamicParamPattern: /^\[(\[?\w+(?:\.\.\.)?\]?)\]$/,
   watchMode: process.env.NODE_ENV === 'development',
   generateTypes: true,
   logLevel: process.env.NODE_ENV === 'development' ? 'info' : 'warn',

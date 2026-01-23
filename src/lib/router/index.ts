@@ -33,20 +33,31 @@ async function loadGeneratedRoutes(): Promise<RouteConfig[]> {
  * 将相对于src的路径转换为相对于当前文件的路径
  */
 function resolveImportPath(importPath: string): string {
-  // 如果路径已经是相对路径（以 ./ 或 ../ 开头），直接返回
-  if (importPath.startsWith('./') || importPath.startsWith('../')) {
-    return importPath;
+  // importPath 是相对于 src 目录的路径，如 "./app/about/page.tsx"
+  // 当前文件在 src/lib/router/index.ts，需要回到 src 目录（../..），然后加上相对路径
+
+  let normalizedPath = importPath;
+
+  // 如果以 ./ 开头，移除 ./ 前缀，然后加上 ../.. 回到 src 目录
+  if (normalizedPath.startsWith('./')) {
+    normalizedPath = normalizedPath.slice(2); // 移除 "./"
+    return join('../..', normalizedPath);
+  }
+
+  // 如果以 ../ 开头，直接返回（已经是相对路径）
+  if (normalizedPath.startsWith('../')) {
+    return normalizedPath;
   }
 
   // 否则，假设路径是相对于src目录的
   // 从 src/lib/router 到 src/ 的路径是 ../..
-  // 所以需要加上 ../../ 前缀
-  return join('../..', importPath);
+  return join('../..', normalizedPath);
 }
 
 /**
  * 动态导入组件
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function importComponent(importPath: string): Promise<any> {
   try {
     const resolvedPath = resolveImportPath(importPath);
@@ -108,7 +119,7 @@ export async function registerFileRoutes(app: Hono): Promise<void> {
 
     // 注册每个路由
     for (const route of routes) {
-      const { path, isDynamic, isCatchAll, params } = route;
+      const { path, isDynamic, isCatchAll, params: _params } = route; // eslint-disable-line @typescript-eslint/no-unused-vars
 
       // 根据路由类型注册不同的处理器
       if (isCatchAll) {
@@ -147,7 +158,7 @@ export async function registerFileRoutes(app: Hono): Promise<void> {
 /**
  * 开发时重新加载路由（热重载）
  */
-export async function reloadRoutes(app: Hono): Promise<void> {
+export async function reloadRoutes(_app: Hono): Promise<void> {
   if (process.env.NODE_ENV !== 'development') {
     console.warn('重新加载路由仅在开发模式下可用');
     return;

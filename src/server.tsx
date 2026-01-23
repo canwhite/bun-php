@@ -4,6 +4,7 @@
 import { Hono } from 'hono';
 import { serveStatic } from 'hono/bun';
 import { registerFileRoutes } from './lib/router';
+import { registerApiRoutes } from './lib/api';
 
 const app = new Hono();
 
@@ -26,15 +27,18 @@ app.get('/styles.css', serveStatic({ path: './dist/styles.css' }));
 
 // ============ 文件路由注册 ============
 
-// 注册所有文件路由
+// 注册所有文件路由和API路由
 // 注意：这是一个异步操作，但Hono的注册是同步的
 // 我们使用立即执行的异步函数来注册路由
 (async () => {
   try {
     await registerFileRoutes(app);
     console.log('文件路由注册完成');
+
+    await registerApiRoutes(app);
+    console.log('API路由注册完成');
   } catch (error) {
-    console.error('文件路由注册失败:', error);
+    console.error('路由注册失败:', error);
     process.exit(1);
   }
 })();
