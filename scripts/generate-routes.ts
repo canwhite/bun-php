@@ -2,10 +2,13 @@
 // scripts/generate-routes.ts
 // 用途：扫描配置的目录，自动生成文件路由配置
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { readdir, stat, readFile, writeFile } from 'fs/promises';
 import { join, relative, dirname, basename, extname, sep } from 'path';
 import { existsSync } from 'fs';
 import { minimatch } from 'minimatch';
+import ts from 'typescript';
 import config from '../src/router.config';
 import type {
   RouterConfig,
@@ -33,6 +36,144 @@ async function loadConfig(): Promise<RouterConfig> {
   } catch (error) {
     console.error('加载路由器配置失败:', error);
     throw error;
+  }
+}
+
+/**
+ * 从源代码中提取 metadata 对象
+ */
+export function extractMetadataFromSource(source: string): Record<string, any> | undefined {
+  try {
+    const sourceFile = ts.createSourceFile('temp.ts', source, ts.ScriptTarget.Latest, true);
+
+    let metadataObject: ts.ObjectLiteralExpression | undefined;
+
+    function visit(node: ts.Node) {
+      // 查找 export const metadata = ... 或 export let metadata = ... 或 export var metadata = ...
+      if (
+        ts.isVariableStatement(node) &&
+        node.modifiers?.some(m => m.kind === ts.SyntaxKind.ExportKeyword)
+      ) {
+        for (const declaration of node.declarationList.declarations) {
+          if (ts.isIdentifier(declaration.name) && declaration.name.text === 'metadata') {
+            if (declaration.initializer && ts.isObjectLiteralExpression(declaration.initializer)) {
+              metadataObject = declaration.initializer;
+              break;
+            }
+          }
+        }
+      }
+      ts.forEachChild(node, visit);
+    }
+
+    visit(sourceFile);
+
+    if (!metadataObject) {
+      return undefined;
+    }
+
+    return evaluateObjectLiteral(metadataObject);
+  } catch (error) {
+    console.debug('解析元数据失败:', error);
+    return undefined;
+  }
+}
+
+/**
+ * 评估对象字面量表达式，将其转换为 JavaScript 对象
+ * 只支持字面量值：字符串、数字、布尔值、null、undefined、数组、嵌套对象
+ */
+function evaluateObjectLiteral(node: ts.ObjectLiteralExpression): Record<string, any> | undefined {
+  const result: Record<string, any> = {};
+
+  for (const property of node.properties) {
+    if (!ts.isPropertyAssignment(property)) {
+      // 跳过方法、getter/setter、展开运算符等
+      continue;
+    }
+
+    const name = getPropertyName(property.name);
+    if (name === undefined) {
+      continue;
+    }
+
+    const value = evaluateExpression(property.initializer);
+    if (value !== undefined) {
+      result[name] = value;
+    }
+  }
+
+  return result;
+}
+
+/**
+ * 获取属性名称（支持标识符、字符串字面量、数字字面量）
+ */
+function getPropertyName(name: ts.PropertyName): string | undefined {
+  if (ts.isIdentifier(name)) {
+    return name.text;
+  } else if (ts.isStringLiteral(name) || ts.isNumericLiteral(name)) {
+    return name.text;
+  } else if (ts.isComputedPropertyName(name)) {
+    // 计算属性名暂不支持
+    return undefined;
+  }
+  return undefined;
+}
+
+/**
+ * 评估表达式，返回 JavaScript 值
+ */
+function evaluateExpression(node: ts.Expression): any {
+  if (ts.isStringLiteral(node)) {
+    return node.text;
+  } else if (ts.isNumericLiteral(node)) {
+    const num = Number(node.text);
+    return isNaN(num) ? undefined : num;
+  } else if (node.kind === ts.SyntaxKind.TrueKeyword) {
+    return true;
+  } else if (node.kind === ts.SyntaxKind.FalseKeyword) {
+    return false;
+  } else if (node.kind === ts.SyntaxKind.NullKeyword) {
+    return null;
+  } else if (node.kind === ts.SyntaxKind.UndefinedKeyword) {
+    return undefined;
+  } else if (ts.isArrayLiteralExpression(node)) {
+    const array: any[] = [];
+    for (const element of node.elements) {
+      if (ts.isSpreadElement(element)) {
+        // 展开运算符暂不支持
+        continue;
+      }
+      const value = evaluateExpression(element);
+      if (value !== undefined) {
+        array.push(value);
+      }
+    }
+    return array;
+  } else if (ts.isObjectLiteralExpression(node)) {
+    return evaluateObjectLiteral(node);
+  } else if (ts.isPrefixUnaryExpression(node)) {
+    // 处理 -123 这样的负数
+    if (node.operator === ts.SyntaxKind.MinusToken && ts.isNumericLiteral(node.operand)) {
+      const num = Number(node.operand.text);
+      return isNaN(num) ? undefined : -num;
+    }
+  }
+  // 不支持其他表达式类型（标识符、函数调用等）
+  return undefined;
+}
+
+/**
+ * 从文件中提取元数据
+ */
+async function extractMetadata(filePath: string): Promise<Record<string, any> | undefined> {
+  try {
+    const content = await readFile(filePath, 'utf-8');
+    return extractMetadataFromSource(content);
+  } catch (error) {
+    console.debug(`读取文件失败，无法提取元数据: ${filePath}`, error);
+    return undefined;
   }
 }
 
@@ -359,32 +500,8 @@ async function parsePageRoute(filePath: string, config: RouterConfig): Promise<R
   }
 
   // 尝试提取元数据
-  let metadata: Record<string, any> | undefined; // eslint-disable-line @typescript-eslint/no-explicit-any
-  try {
-    const content = await readFile(filePath, 'utf-8');
-    // 简单提取 export const metadata = { ... } 或 export const metadata: Metadata = { ... }
-    const metadataMatch = content.match(
-      /export\s+(?:const|let|var)\s+metadata\s*(?::\s*\w+\s*)?=\s*({[\s\S]*?})(?:\s*;|\s*$)/
-    );
-    if (metadataMatch) {
-      try {
-        // 注意：这里只是简单提取，实际应该使用TypeScript解析器
-        // 这里使用 eval 仅用于演示，生产环境应该使用更安全的方法
-        const metadataStr = metadataMatch[1]!
-          .replace(/(\w+)\s*:/g, '"$1":') // 将键转换为字符串
-          .replace(/'([^']*)'/g, '"$1"') // 将单引号替换为双引号
-          .replace(/,(\s*[}\]])/g, '$1'); // 移除尾随逗号
 
-        metadata = JSON.parse(metadataStr);
-      } catch (error) {
-        // 解析失败，忽略元数据
-        console.debug(`解析元数据失败: ${filePath}`, error);
-      }
-    }
-  } catch (error) {
-    // 读取文件失败，忽略元数据
-    console.debug(`读取文件失败，无法提取元数据: ${filePath}`, error);
-  }
+  const metadata = await extractMetadata(filePath);
 
   return {
     path: urlPath,
@@ -436,9 +553,7 @@ function simplifyRoute(route: RouteConfig): SimplifiedRouteConfig {
 /**
  * 构建路由树
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function buildRouteTree(routes: RouteConfig[]): Record<string, any> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const routeTree: Record<string, any> = {};
 
   for (const route of routes) {

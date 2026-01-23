@@ -54,16 +54,19 @@
 已成功修复类型错误：
 
 **问题诊断**：
+
 1. `src/lib/router/index.ts(94,19): error TS18046: 'pageComponent' is of type 'unknown'` - 因为 `RouteConfig.pageComponent` 类型为 `() => Promise<{ default: unknown }>`，导致 `pageModule.default` 无法作为函数调用。
 2. 修复后出现新错误：`ComponentType<any>` 不一定是可调用的（可能是类组件）。
 3. 进一步错误：`render(content)` 参数类型不匹配，因为 `content` 可能是 `ComponentChildren` 而不是 `VNode`。
 
 **解决方案**：
+
 1. 将 `RouteConfig.pageComponent` 类型改为 `() => Promise<{ default: FunctionComponent<any> }>`，明确表示导入的是函数组件。
 2. 在 `index.ts` 中导入 `createElement`，使用 `createElement(pageComponent, {})` 代替直接调用 `pageComponent({})`，确保创建正确的 `VNode`。
 3. 布局组件也使用 `createElement` 包装，保持一致性。
 
 **实施修改**：
+
 1. `src/lib/router/types.ts`：
    - 导入 `FunctionComponent` 类型
    - 更新 `pageComponent` 类型为 `() => Promise<{ default: FunctionComponent<any> }>`
@@ -72,6 +75,7 @@
    - 将直接组件调用改为 `createElement` 包装
 
 **验证结果**：
+
 - TypeScript 类型检查 (`bun tsc --noEmit`) 现在通过，无错误输出。
 - 生成的文件 (`routes.generated.ts`, `api.generated.ts`) 与类型定义一致。
 - ESLint 检查通过，已修复 `Response` 未定义错误（添加了全局类型声明）。

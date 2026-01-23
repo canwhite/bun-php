@@ -1,7 +1,7 @@
 // ==============================================
 // AUTO-GENERATED - DO NOT EDIT MANUALLY!
 // API路由配置
-// Generated at: 2026-01-23T14:25:26.293Z
+// Generated at: 2026-01-23T14:43:15.556Z
 // ==============================================
 
 import type { ApiRouteConfig } from './lib/router/types';
@@ -125,7 +125,7 @@ export const routesByFilePath: Record<string, ApiRouteConfig> = {
 
 export const config = {
   rootDir: "src/app/api",
-  generatedAt: "2026-01-23T14:25:26.293Z",
+  generatedAt: "2026-01-23T14:43:15.556Z",
   version: "1.0.0",
 };
 
