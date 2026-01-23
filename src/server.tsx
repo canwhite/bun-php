@@ -9,6 +9,16 @@ import About from './pages/about.tsx';
 
 const app = new Hono();
 
+// 全局中间件 - 请求日志
+app.use('*', async (c, next) => {
+  const start = Date.now();
+  await next();
+  const ms = Date.now() - start;
+  console.log(
+    `[${new Date().toISOString()}] ${c.req.method} ${c.req.path} ${c.res.status} (${ms}ms)`
+  );
+});
+
 // 静态文件 - 精确路径映射
 app.get('/entry-client.js', serveStatic({ path: './dist/entry-client.js' }));
 app.get('/styles.css', serveStatic({ path: './dist/styles.css' }));
