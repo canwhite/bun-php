@@ -1,7 +1,7 @@
-// src/pages/index.tsx
+// src/app/page.tsx
 // 主页组件
 
-import Layout from '../components/Layout.tsx';
+import Layout from './components/Layout.tsx';
 
 export default function Home() {
   return (

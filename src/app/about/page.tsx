@@ -1,4 +1,4 @@
-// src/pages/about.tsx
+// src/app/about/page.tsx
 // 关于页面
 
 import Layout from '../components/Layout.tsx';

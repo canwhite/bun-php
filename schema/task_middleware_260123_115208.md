@@ -107,12 +107,15 @@
 已成功添加全局日志中间件到 `src/server.tsx`：
 
 1. **中间件代码**：
+
    ```typescript
    app.use('*', async (c, next) => {
      const start = Date.now();
      await next();
      const ms = Date.now() - start;
-     console.log(`[${new Date().toISOString()}] ${c.req.method} ${c.req.path} ${c.res.status} (${ms}ms)`);
+     console.log(
+       `[${new Date().toISOString()}] ${c.req.method} ${c.req.path} ${c.res.status} (${ms}ms)`
+     );
    });
    ```
 
@@ -125,6 +128,7 @@
 ## 下一步行动
 
 ✅ 所有任务已完成：
+
 1. ✅ 代码示例已整合到回答中
 2. ✅ 测试验证方法已提供并验证
 3. ✅ 任务文档已更新

@@ -1,4 +1,4 @@
-// src/islands/Counter.tsx
+// src/app/islands/Counter.tsx
 // 示例岛组件 - 计数器
 
 import { useState } from 'preact/hooks';

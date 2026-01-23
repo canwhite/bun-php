@@ -26,16 +26,18 @@
   },
   "dependencies": {
     "hono": "^4.11.4",
+    "minimatch": "^10.1.1",
     "preact": "^10.28.2",
     "preact-render-to-string": "^6.6.5"
   },
   "scripts": {
     "generate:islands": "bun scripts/generate-islands.ts",
+    "generate:routes": "bun scripts/generate-routes.ts",
     "build:css": "bun scripts/build-css.js",
-    "dev": "bun run generate:islands && bun run build:css && bun --hot src/server.tsx",
-    "build:client": "bun run generate:islands && bun run build:css && bun build ./src/entry-client.tsx --outdir ./dist --minify --target browser",
+    "dev": "bun run generate:islands && bun run generate:routes && bun run build:css && bun --hot src/server.tsx",
+    "build:client": "bun run generate:islands && bun run generate:routes && bun run build:css && bun build ./src/entry-client.tsx --outdir ./dist --minify --target browser",
     "build": "bun run build:client",
-    "start": "bun src/server.tsx",
+    "start": "bun run generate:islands && bun run generate:routes && bun src/server.tsx",
     "lint": "eslint . --ext .ts,.tsx --max-warnings 0",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "format": "prettier --write .",

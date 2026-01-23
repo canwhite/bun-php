@@ -1,15 +1,15 @@
-// src/server.ts
-import { Hono } from 'hono';
-import { render } from 'preact-render-to-string';
-import { serveStatic } from 'hono/bun';
+// src/server.tsx
+// 文件路由系统服务器入口
 
-// 页面组件（直接导入 default export）
-import Home from './pages/index.tsx';
-import About from './pages/about.tsx';
+import { Hono } from 'hono';
+import { serveStatic } from 'hono/bun';
+import { registerFileRoutes } from './lib/router';
 
 const app = new Hono();
 
-// 全局中间件 - 请求日志
+// ============ 全局中间件 ============
+
+// 请求日志中间件
 app.use('*', async (c, next) => {
   const start = Date.now();
   await next();
@@ -19,19 +19,52 @@ app.use('*', async (c, next) => {
   );
 });
 
-// 静态文件 - 精确路径映射
+// ============ 静态文件服务 ============
+
 app.get('/entry-client.js', serveStatic({ path: './dist/entry-client.js' }));
 app.get('/styles.css', serveStatic({ path: './dist/styles.css' }));
 
-app.get('/', c => {
-  return c.html(`<!DOCTYPE html>${render(<Home />)}`);
+// ============ 文件路由注册 ============
+
+// 注册所有文件路由
+// 注意：这是一个异步操作，但Hono的注册是同步的
+// 我们使用立即执行的异步函数来注册路由
+(async () => {
+  try {
+    await registerFileRoutes(app);
+    console.log('文件路由注册完成');
+  } catch (error) {
+    console.error('文件路由注册失败:', error);
+    process.exit(1);
+  }
+})();
+
+// ============ 错误处理 ============
+
+// 404处理
+app.notFound(async c => {
+  // 可以在这里使用自定义404页面
+  // 如果配置了 notFoundPage，可以尝试渲染它
+  return c.text('页面不存在', 404);
 });
 
-app.get('/about', c => {
-  return c.html(`<!DOCTYPE html>${render(<About />)}`);
+// 全局错误处理
+app.onError(async (err, c) => {
+  console.error('服务器错误:', err);
+
+  // 可以在这里使用自定义错误页面
+  // 如果配置了 error 组件，可以尝试渲染它
+
+  return c.json(
+    {
+      error: 'Internal Server Error',
+      message: process.env.NODE_ENV === 'development' ? err.message : undefined,
+    },
+    500
+  );
 });
 
-app.notFound(c => c.text('页面不存在', 404));
+// ============ 导出配置 ============
 
 export default {
   port: 5000,

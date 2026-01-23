@@ -1,4 +1,4 @@
-// src/components/Layout.tsx
+// src/app/components/Layout.tsx
 // 共享布局组件
 
 import type { VNode } from 'preact';

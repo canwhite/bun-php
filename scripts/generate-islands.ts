@@ -3,7 +3,7 @@
 import { readdir, writeFile } from 'fs/promises';
 import { basename } from 'path';
 
-const ISLANDS_DIR = './src/islands';
+const ISLANDS_DIR = './src/app/islands';
 const OUTPUT = './src/islands.generated.ts';
 
 async function generate() {
@@ -19,7 +19,7 @@ async function generate() {
     const imports = components
       .map(name => {
         const componentName = basename(name, '.tsx');
-        return `import ${componentName} from "./islands/${componentName}";`;
+        return `import ${componentName} from "./app/islands/${componentName}";`;
       })
       .join('\n');
 

@@ -5,15 +5,15 @@ services:
     build:
       context: .
       args:
-        NODE_ENV: production  # 默认生产环境构建
+        NODE_ENV: production # 默认生产环境构建
     ports:
-      - "5000:5000"
+      - '5000:5000'
     environment:
-      NODE_ENV: production    # 运行时环境变量
+      NODE_ENV: production # 运行时环境变量
       PORT: 5000
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:5000']
       interval: 30s
       timeout: 10s
       retries: 3
