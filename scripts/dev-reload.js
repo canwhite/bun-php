@@ -21,6 +21,8 @@ class DevReload {
     this.retryCount = 0;
     this.maxRetries = 3;
     this.serverWasDown = false;
+    this.lastCssCheck = null;
+    this.lastCssId = null;
 
     // 开发模式才启用
     if (this.options.enabled) {
@@ -70,6 +72,10 @@ class DevReload {
           window.location.reload();
           return;
         }
+
+        // 检查CSS文件是否更新（用于CSS热重载）
+        await this.checkCssUpdate();
+
         this.retryCount = 0;
         this.lastCheck = Date.now();
       }
@@ -94,6 +100,50 @@ class DevReload {
       }
     } finally {
       this.isChecking = false;
+    }
+  }
+
+  // 检查CSS文件是否更新
+  async checkCssUpdate() {
+    // 只在有上次检查时间时才进行检查
+    if (!this.lastCssCheck) {
+      this.lastCssCheck = Date.now();
+      return;
+    }
+
+    // 每5秒检查一次CSS，避免频繁请求
+    const now = Date.now();
+    if (now - this.lastCssCheck < 5000) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`${this.options.serverUrl}/styles.css`, {
+        method: 'HEAD',
+        cache: 'no-cache',
+      });
+
+      if (response.ok) {
+        const lastModified = response.headers.get('last-modified');
+        const contentLength = response.headers.get('content-length');
+
+        // 创建当前CSS的标识
+        const cssId = `${lastModified || ''}-${contentLength || ''}`;
+
+        // 如果CSS标识变化了，刷新页面
+        if (this.lastCssId && this.lastCssId !== cssId) {
+          console.log('🎨 CSS文件已更新，刷新页面...');
+          window.location.reload();
+          return;
+        }
+
+        // 更新CSS标识
+        this.lastCssId = cssId;
+        this.lastCssCheck = now;
+      }
+    } catch (error) {
+      // 忽略CSS检查错误
+      console.log('⚠️ CSS检查失败:', error.message);
     }
   }
 

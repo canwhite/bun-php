@@ -8,7 +8,7 @@
     "node_modules/"
   ],
   "ext": "ts,tsx,js,json,css",
-  "exec": "bun scripts/clean-port.js && bun scripts/clear-cache.js && bun run generate:islands && bun run generate:routes && bun run generate:api-routes && bun run build:css && bun run build:dev-reload && bun src/server.tsx",
+  "exec": "bun scripts/smart-restart.js $FILENAME",
   "env": {
     "NODE_ENV": "development"
   },

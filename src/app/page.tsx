@@ -9,13 +9,11 @@ export default function Home() {
   return (
     <Layout title="首页">
       <div class="max-w-4xl mx-auto px-4">
-        <h1 class="text-4xl font-bold text-gray-900 mb-6">
-          欢迎使用 Islands MPA - 自动刷新测试 06:53思考对方健康 [测试热更新 07:03]
-        </h1>
+        <h1 class="text-4xl font-bold text-gray-900 mb-6">欢迎使用 Islands MPA</h1>
 
         <div class="prose prose-lg mb-8">
           <p class="text-gray-700">
-            这是一个基于 Bun + Hono + Preact 的 Islands 架构 MPA 示例。¥¥¥¥
+            这是一个基于 Bun + Hono + Preact 的 Islands 架构 MPA 示例.
             页面在服务端渲染，交互式组件在客户端 hydrate。
           </p>
           <ul class="text-gray-700">

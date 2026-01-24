@@ -21,13 +21,35 @@ function cleanupPort(port) {
       const pidList = pids.split('\n').filter(pid => pid.trim());
       console.log(`找到占用端口 ${port} 的进程: ${pidList.join(', ')}`);
 
-      // 杀死所有相关进程
+      // 分级终止：先尝试正常终止，再强制终止
       for (const pid of pidList) {
         try {
-          console.log(`杀死进程 ${pid}...`);
-          execSync(`kill -9 ${pid} 2>/dev/null || true`);
+          console.log(`尝试正常终止进程 ${pid}...`);
+          // 先发送SIGTERM（正常终止）
+          execSync(`kill -15 ${pid} 2>/dev/null || true`);
+
+          // 等待500ms让进程正常退出
+          execSync('sleep 0.5');
+
+          // 检查进程是否还存在
+          try {
+            const checkCmd = `ps -p ${pid} > /dev/null 2>&1 && echo "running" || echo "stopped"`;
+            const status = execSync(checkCmd, { encoding: 'utf8' }).trim();
+
+            if (status === 'running') {
+              console.log(`进程 ${pid} 仍在运行，发送强制终止信号...`);
+              // 发送SIGKILL（强制终止）
+              execSync(`kill -9 ${pid} 2>/dev/null || true`);
+              console.log(`进程 ${pid} 已强制终止`);
+            } else {
+              console.log(`进程 ${pid} 已正常终止`);
+            }
+          } catch (checkErr) {
+            // 检查失败，假定进程已终止
+            console.log(`进程 ${pid} 检查失败，假定已终止`);
+          }
         } catch (err) {
-          console.warn(`无法杀死进程 ${pid}: ${err.message}`);
+          console.warn(`终止进程 ${pid} 时出错: ${err.message}`);
         }
       }
 
