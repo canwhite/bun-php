@@ -1,7 +1,7 @@
 // ==============================================
 // AUTO-GENERATED - DO NOT EDIT MANUALLY!
 // 文件路由配置
-// Generated at: 2026-01-23T15:11:47.681Z
+// Generated at: 2026-01-24T02:01:22.016Z
 // ==============================================
 
 
@@ -26,6 +26,25 @@ export const routes: RouteConfig[] = [
     params: [],
     metadata: {},
     routeDir: "about",
+    excluded: undefined,
+    exclusionReason: undefined,
+  },
+  {
+    path: "/api-test",
+    filePath: "src/app/api-test/page.tsx",
+    relativePath: "api-test/page.tsx",
+    pageComponent: () => import("./app/api-test/page.tsx"),
+    layoutComponents: [],
+    hasLoading: false,
+    hasError: false,
+    loadingComponent: undefined,
+    errorComponent: undefined,
+    isDynamic: false,
+    isCatchAll: false,
+    isOptionalCatchAll: false,
+    params: [],
+    metadata: {},
+    routeDir: "api-test",
     excluded: undefined,
     exclusionReason: undefined,
   },
@@ -86,6 +105,22 @@ export const routeTree = {
       "routeDir": "about"
     }
   },
+  "api-test": {
+    "page": {
+      "path": "/api-test",
+      "filePath": "src/app/api-test/page.tsx",
+      "relativePath": "api-test/page.tsx",
+      "pageComponent": "./app/api-test/page.tsx",
+      "layoutComponents": [],
+      "hasLoading": false,
+      "hasError": false,
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isOptionalCatchAll": false,
+      "params": [],
+      "routeDir": "api-test"
+    }
+  },
   "users": {
     ":id": {
       "page": {
@@ -125,6 +160,25 @@ export const routesByPath: Record<string, RouteConfig> = {
     params: [],
     metadata: {},
     routeDir: "about",
+    excluded: undefined,
+    exclusionReason: undefined
+  },
+"/api-test": {
+    path: "/api-test",
+    filePath: "src/app/api-test/page.tsx",
+    relativePath: "api-test/page.tsx",
+    pageComponent: () => import("./app/api-test/page.tsx"),
+    layoutComponents: [],
+    hasLoading: false,
+    hasError: false,
+    loadingComponent: undefined,
+    errorComponent: undefined,
+    isDynamic: false,
+    isCatchAll: false,
+    isOptionalCatchAll: false,
+    params: [],
+    metadata: {},
+    routeDir: "api-test",
     excluded: undefined,
     exclusionReason: undefined
   },
@@ -188,6 +242,25 @@ export const routesByFilePath: Record<string, RouteConfig> = {
     excluded: undefined,
     exclusionReason: undefined
   },
+"src/app/api-test/page.tsx": {
+    path: "/api-test",
+    filePath: "src/app/api-test/page.tsx",
+    relativePath: "api-test/page.tsx",
+    pageComponent: () => import("./app/api-test/page.tsx"),
+    layoutComponents: [],
+    hasLoading: false,
+    hasError: false,
+    loadingComponent: undefined,
+    errorComponent: undefined,
+    isDynamic: false,
+    isCatchAll: false,
+    isOptionalCatchAll: false,
+    params: [],
+    metadata: {},
+    routeDir: "api-test",
+    excluded: undefined,
+    exclusionReason: undefined
+  },
 "src/app/users/[id]/page.tsx": {
     path: "/users/:id",
     filePath: "src/app/users/[id]/page.tsx",
@@ -230,7 +303,7 @@ export const routesByFilePath: Record<string, RouteConfig> = {
 
 export const config = {
   rootDir: "src/app/",
-  generatedAt: "2026-01-23T15:11:47.681Z",
+  generatedAt: "2026-01-24T02:01:22.016Z",
   version: "1.0.0",
 };
 
