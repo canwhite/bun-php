@@ -37,8 +37,6 @@
     "generate:api-routes": "bun scripts/generate-api-routes.ts",
     "build:css": "bun scripts/build-css.js",
     "build:dev-reload": "bun scripts/build-dev-reload.js",
-    "dev:old": "bun run generate:islands && bun run generate:routes && bun run generate:api-routes && bun run build:css && bun run build:dev-reload && bun --hot src/server.tsx",
-    "dev:watch": "bun run generate:islands && bun run generate:routes && bun run generate:api-routes && bun run build:css && bun run build:dev-reload && bun --watch src/server.tsx",
     "dev": "nodemon",
     "build:client": "bun run generate:islands && bun run generate:routes && bun run generate:api-routes && bun run build:css && bun run build:dev-reload && bun build ./src/entry-client.tsx --outdir ./dist --minify --target browser",
     "build": "bun run build:client",
