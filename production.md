@@ -207,3 +207,10 @@ bun-php/
   - 构建后的CSS文件: `dist/styles.css`
   - 配置: `tailwind.config.js` (内容配置) 和 `postcss.config.js` (PostCSS插件配置)
   - 开发时CSS自动构建，生产构建包含CSS处理
+
+## 相关文档
+
+- [Islands架构说明](docs/islands-architecture-explanation.md) - Islands架构实现细节
+- [Tailwind CSS集成](docs/tailwind-css-integration.md) - Tailwind CSS v4配置和集成
+- [热重载实现](docs/hot-reload-implementation.md) - 开发环境热重载系统
+- [端口配置与Git清理命令](docs/port-and-git-fix-commands-260124.md) - 端口改进和生成文件Git跟踪清理命令总结
