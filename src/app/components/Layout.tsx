@@ -17,6 +17,9 @@ export default function Layout({ title = 'Islands MPA', children }: LayoutProps)
         <title>{title} - Islands MPA</title>
         <script src="/entry-client.js" type="module" defer></script>
         <link rel="stylesheet" href="/styles.css" />
+        {process.env.NODE_ENV === 'development' && (
+          <script src={`/dev-reload.js`} type="module" defer></script>
+        )}
         <style>{`
           * { margin: 0; box-sizing: border-box; }
           body { font-family: system-ui, -apple-system, sans-serif; }

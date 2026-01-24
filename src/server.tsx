@@ -24,6 +24,10 @@ app.use('*', async (c, next) => {
 
 app.get('/entry-client.js', serveStatic({ path: './dist/entry-client.js' }));
 app.get('/styles.css', serveStatic({ path: './dist/styles.css' }));
+app.get('/dev-reload.js', serveStatic({ path: './dist/dev-reload.js' }));
+
+// 健康检查端点（用于自动刷新）
+app.get('/health', c => c.text('OK'));
 
 // ============ 文件路由注册 ============
 

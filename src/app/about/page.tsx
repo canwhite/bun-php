@@ -1,5 +1,6 @@
 // src/app/about/page.tsx
 // 关于页面
+// Nodemon热重载测试 - 关于页面
 
 import Layout from '../components/Layout.tsx';
 
