@@ -2,6 +2,7 @@
 // 主页组件
 
 import Layout from './components/Layout.tsx';
+import Island from './components/Island.tsx';
 
 export default function Home() {
   return (
@@ -61,6 +62,43 @@ export default function Home() {
                 <span>其他静态内容保持为纯 HTML，性能更优</span>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div class="bg-gray-50 p-6 rounded-xl">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">表单按钮示例</h2>
+            <p class="text-gray-600 mb-4">
+              使用新的 Island 组件包装器，类型安全地挂载 forms-button。
+            </p>
+            <Island
+              name="forms-button"
+              props={{
+                label: '提交表单',
+                variant: 'primary',
+                onClick: () => console.log('按钮点击'),
+              }}
+              className="min-h-[120px]"
+            />
+            <p class="text-sm text-gray-500 mt-4">
+              Island名称: forms-button (来自 forms/Button.tsx)
+            </p>
+          </div>
+
+          <div class="bg-gray-50 p-6 rounded-xl">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">UI按钮示例</h2>
+            <p class="text-gray-600 mb-4">使用新的 Island 组件包装器，类型安全地挂载 ui-button。</p>
+            <Island
+              name="ui-button"
+              props={{
+                children: '带图标的按钮',
+                icon: '🎨',
+                size: 'lg',
+                rounded: true,
+              }}
+              className="min-h-[120px] flex items-center"
+            />
+            <p class="text-sm text-gray-500 mt-4">Island名称: ui-button (来自 ui/Button.tsx)</p>
           </div>
         </div>
 
