@@ -192,22 +192,49 @@ export default function ProductsPage() {
 
 在 `src/app/api/` 目录下创建 `route.ts` 文件：
 
-```tsx
+```ts
 // src/app/api/products/route.ts
-import { Hono } from 'hono';
+import type { Context } from 'hono';
 
-const app = new Hono();
+// 获取产品列表
+export const GET = async (c: Context) => {
+  return c.json({
+    products: [
+      { id: 1, name: '产品A', price: 100 },
+      { id: 2, name: '产品B', price: 200 },
+    ],
+    count: 2,
+  });
+};
 
-app.get('/', (c) => {
-  return c.json({ products: [{ id: 1, name: '产品A' }] });
-});
+// 创建新产品
+export const POST = async (c: Context) => {
+  try {
+    const body = await c.req.json();
 
-app.post('/', async (c) => {
-  const body = await c.req.json();
-  return c.json({ message: '产品已创建', data: body });
-});
+    // 简单的验证
+    if (!body.name || !body.price) {
+      return c.json({ error: '产品名称和价格是必填项' }, 400);
+    }
 
-export default app;
+    const newProduct = {
+      id: Date.now(), // 使用时间戳作为简单ID
+      name: body.name,
+      price: body.price,
+      createdAt: new Date().toISOString(),
+    };
+
+    return c.json(
+      {
+        message: '产品创建成功',
+        product: newProduct,
+      },
+      201
+    );
+  } catch {
+    return c.json({ error: '无效的JSON数据' }, 400);
+  }
+};
 ```
 
 ### 5. 使用 Tailwind CSS

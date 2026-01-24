@@ -53,6 +53,7 @@
 5. **命令列表**：更新了所有可用命令，包含路由生成和API生成脚本
 6. **架构原理**：详细说明了Islands架构和文件系统路由系统
 7. **配置说明**：包含TypeScript、Bun、Tailwind CSS和端口配置
+8. **API路由修复**：修正了API路由示例，从错误的`const app = new Hono(); app.get()`模式改为正确的`export const GET`模式，与实际项目代码一致
 
 已创建缺失的LICENSE文件，验证了所有链接和命令，确保README.md与production.md内容一致。
 
