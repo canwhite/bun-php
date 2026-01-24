@@ -122,6 +122,35 @@ bun-php/
 4. 运行 `bun run build:client` 构建客户端代码
 5. 运行 `bun run start` 启动项目
 
+## 端口配置
+
+项目使用统一端口配置系统，支持灵活配置：
+
+### 配置方式
+
+1. **环境变量** (推荐):
+   ```bash
+   PORT=3000 bun run dev     # 开发模式使用端口3000
+   PORT=8080 bun run start   # 生产模式使用端口8080
+   ```
+
+2. **默认值**:
+   - 未设置 `PORT` 环境变量时，默认使用端口 `5000`
+   - 所有相关脚本自动使用相同端口配置
+
+### 相关脚本
+
+- `src/server.tsx`: 服务器监听端口
+- `scripts/clean-port.js`: 清理端口占用
+- `scripts/dev-reload.js`: 开发环境自动刷新 (自动适配当前端口)
+- `scripts/smart-restart.js`: 智能重启脚本
+- `scripts/shared-config.js`: 共享配置模块
+
+### 向后兼容性
+
+- 未设置 `PORT` 环境变量时，所有功能保持与之前相同
+- `dev-reload.js` 移除硬编码端口检查，支持任何本地端口
+
 ## 项目状态
 
 - **创建时间**: 基于INIT.md教程创建于 2026-01-20

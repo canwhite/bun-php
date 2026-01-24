@@ -10,10 +10,11 @@
  */
 
 import { execSync } from 'child_process';
+import { getPort } from './shared-config.js';
 
 // 配置
 const CONFIG = {
-  port: 5000,
+  port: getPort(),
   checkInterval: 2000,
   maxRetries: 3
 };

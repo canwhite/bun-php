@@ -72,9 +72,16 @@ app.onError(async (err, c) => {
   );
 });
 
+// ============ 端口配置 ============
+
+// 从共享配置模块获取端口
+import { getPort } from '../scripts/shared-config.js';
+
+const PORT = getPort();
+
 // ============ 导出配置 ============
 
 export default {
-  port: 5000,
+  port: PORT,
   fetch: app.fetch,
 };

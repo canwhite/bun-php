@@ -11,8 +11,8 @@ class DevReload {
       enabled:
         window.location.hostname === 'localhost' ||
         window.location.hostname === '127.0.0.1' ||
-        window.location.hostname.includes('.local') ||
-        window.location.port === '5000',
+        window.location.hostname.includes('.local'),
+        // 移除硬编码端口检查，允许在任何本地端口启用
       ...options,
     };
 

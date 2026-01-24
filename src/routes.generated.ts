@@ -1,7 +1,7 @@
 // ==============================================
 // AUTO-GENERATED - DO NOT EDIT MANUALLY!
 // 文件路由配置
-// Generated at: 2026-01-24T08:19:21.435Z
+// Generated at: 2026-01-24T08:42:05.630Z
 // ==============================================
 
 
@@ -303,7 +303,7 @@ export const routesByFilePath: Record<string, RouteConfig> = {
 
 export const config = {
   rootDir: "src/app/",
-  generatedAt: "2026-01-24T08:19:21.435Z",
+  generatedAt: "2026-01-24T08:42:05.630Z",
   version: "1.0.0",
 };
 

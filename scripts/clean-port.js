@@ -7,7 +7,10 @@
 
 import { execSync } from 'child_process';
 
-const PORT = 5000;
+// 从共享配置模块获取端口
+import { getPort } from './shared-config.js';
+
+const PORT = getPort();
 
 function cleanupPort(port) {
   console.log(`清理端口 ${port}...`);
