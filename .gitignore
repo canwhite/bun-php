@@ -30,3 +30,5 @@ Thumbs.db
 
 # Generated files
 src/islands.generated.ts
+src/routes.generated.ts
+src/api.generated.ts
