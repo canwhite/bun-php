@@ -15,8 +15,8 @@ import { getPort } from './shared-config.js';
 // 配置
 const CONFIG = {
   port: getPort(),
-  checkInterval: 2000,
-  maxRetries: 3
+  checkInterval: 1500,
+  maxRetries: 3,
 };
 
 // 文件类型分类
@@ -25,7 +25,7 @@ const FILE_TYPES = {
   TSX: ['.tsx'],
   CONFIG: ['.json', '.js', '.ts', '.config.js', '.config.ts'],
   SCRIPT: ['.js', '.ts'],
-  OTHER: [] // 其他文件类型
+  OTHER: [], // 其他文件类型
 };
 
 // 分类函数
@@ -36,7 +36,7 @@ function classifyFiles(filePaths) {
     hasConfig: false,
     hasScript: false,
     hasOther: false,
-    files: filePaths
+    files: filePaths,
   };
 
   for (const filePath of filePaths) {
@@ -107,7 +107,12 @@ async function smartRestart(filePaths) {
   let actions = [];
 
   // 规则1: 纯CSS文件更改 → 只构建CSS (dev-reload.js会检测CSS更新)
-  if (classification.hasCSS && !classification.hasTSX && !classification.hasConfig && !classification.hasScript) {
+  if (
+    classification.hasCSS &&
+    !classification.hasTSX &&
+    !classification.hasConfig &&
+    !classification.hasScript
+  ) {
     console.log('🎨 检测到纯CSS文件更改，执行CSS构建');
     console.log('💡 提示: dev-reload.js将自动检测CSS更新并刷新页面');
     actions.push(['bun run build:css', '构建CSS']);
@@ -174,7 +179,7 @@ async function smartRestart(filePaths) {
         runCommandWithRetry('bun run generate:islands', '生成岛组件'),
         runCommandWithRetry('bun run generate:routes', '生成路由'),
         runCommandWithRetry('bun run generate:api-routes', '生成API路由'),
-        runCommandWithRetry('bun run build:css', '构建CSS')
+        runCommandWithRetry('bun run build:css', '构建CSS'),
       ]);
     } catch (error) {
       console.error('❌ 并行构建失败:', error);

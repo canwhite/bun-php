@@ -7,6 +7,7 @@
 **热更新**就是在你修改代码后，浏览器**自动刷新页面**显示最新内容，**无需手动按F5**。
 
 想象一下：
+
 - 你正在写网页代码
 - 修改了一个标题的文字
 - 保存文件
@@ -97,12 +98,14 @@
 当你保存文件时，系统会**智能分析文件类型**，执行不同的操作：
 
 #### 第1步：检测文件变化
+
 ```
 你：修改了 src/styles.css
 Nodemon：📢 "发现 styles.css 有变化！传递文件路径给智能重启系统"
 ```
 
 #### 第2步：智能决策（smart-restart.js）
+
 系统分析文件类型，决定如何处理：
 
 ```javascript
@@ -114,6 +117,7 @@ Nodemon：📢 "发现 styles.css 有变化！传递文件路径给智能重启�
 ```
 
 #### 第3步：分级端口清理（scripts/clean-port.js）
+
 ```javascript
 // 安全的分级终止策略
 1. 发送 SIGTERM（正常终止）→ 等待500ms
@@ -123,6 +127,7 @@ Nodemon：📢 "发现 styles.css 有变化！传递文件路径给智能重启�
 ```
 
 #### 第4步：增强缓存清理（scripts/clear-cache.js）
+
 ```javascript
 // 多重缓存清理策略
 1. Node.js模块缓存清理（如果适用）
@@ -132,9 +137,11 @@ Nodemon：📢 "发现 styles.css 有变化！传递文件路径给智能重启�
 ```
 
 #### 第5步：智能执行
+
 根据文件类型执行相应操作：
 
 ##### 场景A：纯CSS文件更改
+
 ```
 1. 构建CSS → bun run build:css
 2. 浏览器端dev-reload.js检测到CSS更新
@@ -142,6 +149,7 @@ Nodemon：📢 "发现 styles.css 有变化！传递文件路径给智能重启�
 ```
 
 ##### 场景B：TSX文件更改
+
 ```
 1. 清理端口和缓存
 2. 生成岛组件、路由、API路由
@@ -151,6 +159,7 @@ Nodemon：📢 "发现 styles.css 有变化！传递文件路径给智能重启�
 ```
 
 ##### 场景C：配置文件更改
+
 ```
 1. 完整重启流程（同上）
 2. 确保所有配置变更生效
@@ -170,12 +179,12 @@ Nodemon：📢 "发现 styles.css 有变化！传递文件路径给智能重启�
 class DevReload {
   constructor() {
     this.options = {
-      checkInterval: 2000,  // 每2秒检查一次服务器状态
+      checkInterval: 1500, // 每2秒检查一次服务器状态
       serverUrl: window.location.origin, // 当前网站地址
-      enabled: window.location.hostname === 'localhost' // 只在本地开发启用
+      enabled: window.location.hostname === 'localhost', // 只在本地开发启用
     };
-    this.lastCssCheck = null;    // 上次CSS检查时间
-    this.lastCssId = null;       // 上次CSS文件标识
+    this.lastCssCheck = null; // 上次CSS检查时间
+    this.lastCssId = null; // 上次CSS文件标识
   }
 
   // 核心方法：双重检测
@@ -184,7 +193,7 @@ class DevReload {
       // 尝试访问 /health 端点
       const response = await fetch(`${this.options.serverUrl}/health`, {
         method: 'HEAD',
-        cache: 'no-cache'
+        cache: 'no-cache',
       });
 
       if (response.ok) {
@@ -213,7 +222,7 @@ class DevReload {
       try {
         const response = await fetch(`${this.options.serverUrl}/styles.css`, {
           method: 'HEAD',
-          cache: 'no-cache'
+          cache: 'no-cache',
         });
 
         if (response.ok) {
@@ -253,6 +262,7 @@ class DevReload {
 ### 🎨 CSS热更新特别说明
 
 **CSS热更新**是系统的重要优化：
+
 - **无需服务器重启**：修改CSS文件时，服务器继续运行
 - **自动检测**：dev-reload.js每5秒检查CSS文件版本
 - **即时刷新**：检测到变化立即刷新页面
@@ -267,7 +277,7 @@ class DevReload {
 ```json
 {
   "scripts": {
-    "dev": "nodemon",  // 关键！使用智能重启的Nodemon
+    "dev": "nodemon", // 关键！使用智能重启的Nodemon
     "build:dev-reload": "bun scripts/build-dev-reload.js",
     "build:css": "bun scripts/build-css.js",
     "generate:islands": "bun scripts/generate-islands.ts",
@@ -278,6 +288,7 @@ class DevReload {
 ```
 
 **重要提醒**：
+
 - ✅ **正确方式**：一定要用 `bun run dev`（智能重启）
 - ❌ **错误方式**：不要用 `bun src/server.tsx`（无热更新）
 - 🗑️ **已移除**：`dev:old` 和 `dev:watch`（旧方案，已不再需要）
@@ -286,16 +297,18 @@ class DevReload {
 
 ```javascript
 // src/server.tsx
-app.get('/health', c => c.text('OK'));  // 简单的健康检查
+app.get('/health', c => c.text('OK')); // 简单的健康检查
 ```
 
 ### 3. 页面中自动加载脚本
 
 ```javascript
 // src/app/components/Layout.tsx
-{process.env.NODE_ENV === 'development' && (
-  <script src="/dev-reload.js" type="module" defer></script>
-)}
+{
+  process.env.NODE_ENV === 'development' && (
+    <script src="/dev-reload.js" type="module" defer></script>
+  );
+}
 ```
 
 ---
@@ -371,6 +384,7 @@ bun src/server.tsx
 ### 问题1：修改CSS后浏览器不刷新
 
 **检查步骤**：
+
 1. 终端是否显示 `🎨 检测到纯CSS文件更改，执行CSS构建`？
    - 如果没有 → 可能是混合文件类型，触发了完整重启
 2. 浏览器控制台是否有 `🚀 开发自动刷新已启用` 消息？
@@ -381,6 +395,7 @@ bun src/server.tsx
    - 查看 `dist/styles.css` 的修改时间
 
 **解决方案**：
+
 ```bash
 # 手动触发CSS构建
 bun run build:css
@@ -394,11 +409,13 @@ bun run build:dev-reload
 ### 问题2：修改代码后浏览器不刷新（非CSS）
 
 **检查步骤**：
+
 1. 终端是否显示智能决策消息（如 `⚛️ 检测到TSX文件更改`）？
    - 如果没有 → Nodemon没启动，检查是否用了 `bun run dev`
 2. 浏览器控制台是否有 `✅ 服务器已恢复，刷新页面...` 消息？
    - 如果没有 → 检查服务器是否成功重启
 3. 检查端口占用：
+
 ```bash
 # 查看端口5000是否被占用
 lsof -ti:5000
@@ -429,10 +446,12 @@ lsof -ti:5000 | xargs kill -9   # 再强制终止
 **症状**：CSS文件更改却执行了完整重启
 
 **原因**：
+
 1. 同时修改了多个文件（混合类型）
 2. 文件类型识别错误
 
 **检查**：
+
 1. 查看Nodemon日志，确认哪些文件被检测到
 2. 检查 `scripts/smart-restart.js` 的分类逻辑
 
@@ -441,6 +460,7 @@ lsof -ti:5000 | xargs kill -9   # 再强制终止
 **症状**：修改后看到的是旧代码
 
 **解决方案**：
+
 ```bash
 # 手动清理缓存
 bun scripts/clear-cache.js
@@ -457,16 +477,19 @@ bun run dev
 ## 💡 技术细节：为什么这样设计？
 
 ### 1. 为什么用Nodemon而不是Bun的--hot？
+
 - **稳定性**：Bun的 `--hot` 有时会"通信失败"
 - **可控性**：Nodemon可以精确控制重启流程
 - **兼容性**：支持复杂的预处理步骤（生成、构建等）
 
 ### 2. 为什么分服务器端和浏览器端？
+
 - **分离关注点**：服务器管重启，浏览器管刷新
 - **更可靠**：即使服务器重启失败，浏览器端也能处理
 - **用户体验**：可以显示重启状态，添加手动刷新按钮
 
 ### 3. 为什么清理缓存很重要？
+
 - **模块缓存**：Bun会缓存导入的模块，不清理会加载旧代码
 - **生成文件**：路由配置等需要重新生成
 - **端口占用**：确保新服务器能顺利启动
@@ -476,6 +499,7 @@ bun run dev
 ## 📈 性能优化实现
 
 ### 1. 智能重启（已实现 ✅）
+
 系统根据文件类型执行不同的重启策略，大幅减少不必要的重启：
 
 - **🎨 CSS文件变化** → 只构建CSS，不重启服务器
@@ -489,33 +513,37 @@ bun run dev
 - **🔄 混合文件变化** → 完整重启（安全策略）
 
 ### 2. 安全的分级终止
+
 - **SIGTERM优先**：先尝试正常终止进程
 - **超时检查**：等待500ms让进程清理资源
 - **SIGKILL备用**：如未退出，强制终止
 - **避免副作用**：减少端口占用和资源泄漏
 
 ### 3. 增强的缓存清理
+
 - **多重策略**：Node.js缓存 + Bun文件 + 生成文件
 - **Bun适配**：针对Bun运行时的特殊处理
 - **建议系统**：提供开发友好的建议和提示
 
 ### 4. 浏览器端优化
+
 - **双重检测**：服务器健康 + CSS版本
 - **智能间隔**：CSS检测每5秒一次，避免频繁请求
 - **手动刷新**：提供可视化刷新按钮
 - **开发工具**：暴露控制API供开发者使用
 
 ### 5. 监控配置优化
+
 ```json
 // nodemon.json 已优化配置
 {
   "ignore": [
-    "src/**/*.generated.ts",  // 忽略生成文件
-    "src/**/*.test.*",        // 忽略测试文件
-    "dist/**/*",              // 忽略构建输出
-    "node_modules/"           // 忽略依赖
+    "src/**/*.generated.ts", // 忽略生成文件
+    "src/**/*.test.*", // 忽略测试文件
+    "dist/**/*", // 忽略构建输出
+    "node_modules/" // 忽略依赖
   ],
-  "watch": ["src/", "scripts/"]  // 精确监控
+  "watch": ["src/", "scripts/"] // 精确监控
 }
 ```
 
@@ -535,15 +563,15 @@ bun run dev
 ### 智能决策流程：
 
 **你保存文件**
-  ↓
+↓
 **Nodemon检测变化** → 传递给智能重启系统
-  ↓
+↓
 **智能决策** → 分析文件类型，选择处理方案
-  ↓
+↓
 **场景A：纯CSS文件** → 构建CSS → 浏览器检测更新 → 刷新页面
 **场景B：TSX文件** → 完整重启 → 浏览器检测服务器恢复 → 刷新页面
 **场景C：混合文件** → 完整重启（安全策略）
-  ↓
+↓
 **🎉 看到更新后的页面！**
 
 ### 性能优势：
@@ -566,43 +594,48 @@ bun run dev
 ## 🛠️ 文件清单
 
 ### 核心配置文件
-| 文件 | 作用 | 位置 |
-|------|------|------|
+
+| 文件           | 作用                        | 位置       |
+| -------------- | --------------------------- | ---------- |
 | `nodemon.json` | Nodemon配置文件（智能重启） | 项目根目录 |
-| `package.json` | 项目配置和脚本命令 | 项目根目录 |
+| `package.json` | 项目配置和脚本命令          | 项目根目录 |
 
 ### 智能重启系统
-| 文件 | 作用 | 位置 |
-|------|------|------|
-| `scripts/smart-restart.js` | **智能重启核心**，文件类型决策 | `scripts/` |
-| `scripts/clean-port.js` | 安全端口清理（分级终止） | `scripts/` |
-| `scripts/clear-cache.js` | 增强缓存清理（Bun适配） | `scripts/` |
-| `scripts/build-dev-reload.js` | 构建浏览器刷新脚本 | `scripts/` |
-| `scripts/dev-reload.js` | 浏览器智能刷新脚本源码 | `scripts/` |
-| `dist/dev-reload.js` | 构建后的浏览器刷新脚本 | `dist/` |
+
+| 文件                          | 作用                           | 位置       |
+| ----------------------------- | ------------------------------ | ---------- |
+| `scripts/smart-restart.js`    | **智能重启核心**，文件类型决策 | `scripts/` |
+| `scripts/clean-port.js`       | 安全端口清理（分级终止）       | `scripts/` |
+| `scripts/clear-cache.js`      | 增强缓存清理（Bun适配）        | `scripts/` |
+| `scripts/build-dev-reload.js` | 构建浏览器刷新脚本             | `scripts/` |
+| `scripts/dev-reload.js`       | 浏览器智能刷新脚本源码         | `scripts/` |
+| `dist/dev-reload.js`          | 构建后的浏览器刷新脚本         | `dist/`    |
 
 ### 生成和构建脚本
-| 文件 | 作用 | 位置 |
-|------|------|------|
-| `scripts/generate-islands.ts` | 生成岛组件注册表 | `scripts/` |
-| `scripts/generate-routes.ts` | 生成文件路由 | `scripts/` |
-| `scripts/generate-api-routes.ts` | 生成API路由 | `scripts/` |
-| `scripts/build-css.js` | 构建Tailwind CSS | `scripts/` |
+
+| 文件                             | 作用             | 位置       |
+| -------------------------------- | ---------------- | ---------- |
+| `scripts/generate-islands.ts`    | 生成岛组件注册表 | `scripts/` |
+| `scripts/generate-routes.ts`     | 生成文件路由     | `scripts/` |
+| `scripts/generate-api-routes.ts` | 生成API路由      | `scripts/` |
+| `scripts/build-css.js`           | 构建Tailwind CSS | `scripts/` |
 
 ### 应用文件
-| 文件 | 作用 | 位置 |
-|------|------|------|
-| `src/server.tsx` | 服务器入口（含/health端点） | `src/` |
+
+| 文件                            | 作用                          | 位置                  |
+| ------------------------------- | ----------------------------- | --------------------- |
+| `src/server.tsx`                | 服务器入口（含/health端点）   | `src/`                |
 | `src/app/components/Layout.tsx` | 布局组件（加载dev-reload.js） | `src/app/components/` |
-| `src/styles.css` | CSS入口文件（Tailwind） | `src/` |
-| `dist/styles.css` | 构建后的CSS文件 | `dist/` |
+| `src/styles.css`                | CSS入口文件（Tailwind）       | `src/`                |
+| `dist/styles.css`               | 构建后的CSS文件               | `dist/`               |
 
 ### 已移除/不再需要的文件
-| 文件 | 状态 | 说明 |
-|------|------|------|
-| `scripts/start-dev.js` | 🗑️ 已删除 | 旧的开发启动脚本 |
-| `dev:old` 脚本命令 | 🗑️ 已移除 | 旧的bun --hot方案 |
-| `dev:watch` 脚本命令 | 🗑️ 已移除 | 旧的bun --watch方案 |
+
+| 文件                   | 状态      | 说明                |
+| ---------------------- | --------- | ------------------- |
+| `scripts/start-dev.js` | 🗑️ 已删除 | 旧的开发启动脚本    |
+| `dev:old` 脚本命令     | 🗑️ 已移除 | 旧的bun --hot方案   |
+| `dev:watch` 脚本命令   | 🗑️ 已移除 | 旧的bun --watch方案 |
 
 ---
 
@@ -619,8 +652,8 @@ bun run dev
 
 ---
 
-*文档最后更新：2026年1月24日（智能重启版本 v2.0）*
-*基于 bun-php 项目的实际实现*
+_文档最后更新：2026年1月24日（智能重启版本 v2.0）_
+_基于 bun-php 项目的实际实现_
 
 ### 🎯 版本历史
 

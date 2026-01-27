@@ -6,13 +6,13 @@
 class DevReload {
   constructor(options = {}) {
     this.options = {
-      checkInterval: 2000, // 检查间隔（毫秒）
+      checkInterval: 1500, // 检查间隔（毫秒）
       serverUrl: window.location.origin, // 服务器地址
       enabled:
         window.location.hostname === 'localhost' ||
         window.location.hostname === '127.0.0.1' ||
         window.location.hostname.includes('.local'),
-        // 移除硬编码端口检查，允许在任何本地端口启用
+      // 移除硬编码端口检查，允许在任何本地端口启用
       ...options,
     };
 

@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <Layout title="首页">
       <div class="max-w-4xl mx-auto px-4">
-        <h1 class="text-4xl font-bold text-gray-900 mb-6">欢迎使用 Islands MPA。sd</h1>
+        <h1 class="text-4xl font-bold text-gray-900 mb-6">欢迎使用 Islands MPA。sdfsd--sdf</h1>
 
         <div class="prose prose-lg mb-8">
           <p class="text-gray-700">
