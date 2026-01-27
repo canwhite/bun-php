@@ -71,30 +71,6 @@ function runCommand(cmd, description) {
   }
 }
 
-// 带重试机制的命令执行
-async function runCommandWithRetry(cmd, description, maxRetries = 2) {
-  for (let i = 0; i <= maxRetries; i++) {
-    const attempt = i + 1;
-    const suffix = maxRetries > 0 ? ` (${attempt}/${maxRetries + 1})` : '';
-
-    try {
-      console.log(`🚀 ${description}${suffix}...`);
-      execSync(cmd, { stdio: 'inherit' });
-      console.log(`✅ ${description} 完成`);
-      return true;
-    } catch (error) {
-      if (i === maxRetries) {
-        console.error(`❌ ${description} 失败，已达最大重试次数:`, error.message);
-        return false;
-      }
-      console.log(`⚠️ ${description} 失败，重试 ${attempt + 1}/${maxRetries + 1}...`);
-      // 等待1秒后重试
-      await new Promise(resolve => setTimeout(resolve, 1000));
-    }
-  }
-  return false;
-}
-
 // 智能重启决策
 async function smartRestart(filePaths) {
   console.log('🔄 智能重启启动');
@@ -152,51 +128,26 @@ async function smartRestart(filePaths) {
 
   // 执行动作
   if (needsFullRestart) {
-    console.log('🔧 执行完整重启流程（已优化：并行化构建）');
+    console.log('🔧 执行完整重启流程');
 
-    // 步骤1: 串行执行清理和缓存（必须按顺序）
-    console.log('--- 阶段1: 清理环境 ---');
-    if (!runCommand('bun scripts/clean-port.js', '清理端口')) {
-      console.error('❌ 端口清理失败');
-      process.exit(1);
+    // 完整重启步骤
+    const steps = [
+      ['bun scripts/clean-port.js', '清理端口'],
+      ['bun scripts/clear-cache.js', '清理缓存'],
+      ['bun run generate:islands', '生成岛组件'],
+      ['bun run generate:routes', '生成路由'],
+      ['bun run generate:api-routes', '生成API路由'],
+      ['bun run build:css', '构建CSS'],
+      ['bun run build:dev-reload', '构建自动刷新脚本'],
+      ['bun src/server.tsx', '启动服务器']
+    ];
+
+    for (const [cmd, desc] of steps) {
+      if (!runCommand(cmd, desc)) {
+        console.error('❌ 重启流程失败');
+        process.exit(1);
+      }
     }
-    if (!runCommand('bun scripts/clear-cache.js', '清理缓存')) {
-      console.error('❌ 缓存清理失败');
-      process.exit(1);
-    }
-
-    // 步骤2: 并行执行所有独立的生成任务
-    console.log('--- 阶段2: 并行构建 ---');
-    const startTime = Date.now();
-
-    try {
-      await Promise.all([
-        runCommandWithRetry('bun run generate:islands', '生成岛组件'),
-        runCommandWithRetry('bun run generate:routes', '生成路由'),
-        runCommandWithRetry('bun run generate:api-routes', '生成API路由'),
-        runCommandWithRetry('bun run build:css', '构建CSS')
-      ]);
-    } catch (error) {
-      console.error('❌ 并行构建失败:', error);
-      process.exit(1);
-    }
-
-    const buildTime = Date.now() - startTime;
-    console.log(`⚡ 并行构建完成，耗时: ${buildTime}ms`);
-
-    // 步骤3: 串行执行依赖任务
-    console.log('--- 阶段3: 启动服务器 ---');
-    if (!runCommandWithRetry('bun run build:dev-reload', '构建自动刷新脚本')) {
-      console.error('❌ 构建自动刷新脚本失败');
-      process.exit(1);
-    }
-    if (!runCommandWithRetry('bun src/server.tsx', '启动服务器')) {
-      console.error('❌ 启动服务器失败');
-      process.exit(1);
-    }
-
-    const totalTime = Date.now() - startTime;
-    console.log(`✅ 完整重启成功，总耗时: ${totalTime}ms`);
   } else {
     // 只执行CSS构建
     console.log('🎯 执行最小化更新');
